@@ -1,43 +1,71 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react';
 
-const fontSizes = [18, 20, 22, 24, 28, 32, 36]
+const fontSizes = [18, 20, 22, 24, 28, 32, 36];
 
-function ReaderCustomizer({ onFontSizeChange, onHarakatToggle, onFontChange, onThemeChange }) {
-  const [currentSizeIdx, setCurrentSizeIdx] = useState(3)
-  const [isHarakatActive, setIsHarakatActive] = useState(true)
-  const [selectedFont, setSelectedFont] = useState('font-arabic-body')
-  const [selectedTheme, setSelectedTheme] = useState('theme-sepia')
+function ReaderCustomizer({
+  onFontSizeChange,
+  onHarakatToggle,
+  onFontChange,
+  onThemeChange,
+  initialFontSize = 24,
+  initialHarakat = true,
+  initialFont = 'font-arabic-body',
+  initialTheme = 'theme-sepia',
+}) {
+  const [currentSizeIdx, setCurrentSizeIdx] = useState(fontSizes.indexOf(initialFontSize) !== -1 ? fontSizes.indexOf(initialFontSize) : 3);
+  const [isHarakatActive, setIsHarakatActive] = useState(initialHarakat);
+  const [selectedFont, setSelectedFont] = useState(initialFont);
+  const [selectedTheme, setSelectedTheme] = useState(initialTheme);
+
+  // Sync with external prop changes
+  useEffect(() => {
+    const idx = fontSizes.indexOf(initialFontSize);
+    if (idx !== -1) setCurrentSizeIdx(idx);
+  }, [initialFontSize]);
+
+  useEffect(() => {
+    setIsHarakatActive(initialHarakat);
+  }, [initialHarakat]);
+
+  useEffect(() => {
+    setSelectedFont(initialFont);
+  }, [initialFont]);
+
+  useEffect(() => {
+    setSelectedTheme(initialTheme);
+  }, [initialTheme]);
 
   const handleFontDec = () => {
     if (currentSizeIdx > 0) {
-      const newIdx = currentSizeIdx - 1
-      setCurrentSizeIdx(newIdx)
-      onFontSizeChange(fontSizes[newIdx])
+      const newIdx = currentSizeIdx - 1;
+      setCurrentSizeIdx(newIdx);
+      onFontSizeChange?.(fontSizes[newIdx]);
     }
-  }
+  };
 
   const handleFontInc = () => {
     if (currentSizeIdx < fontSizes.length - 1) {
-      const newIdx = currentSizeIdx + 1
-      setCurrentSizeIdx(newIdx)
-      onFontSizeChange(fontSizes[newIdx])
+      const newIdx = currentSizeIdx + 1;
+      setCurrentSizeIdx(newIdx);
+      onFontSizeChange?.(fontSizes[newIdx]);
     }
-  }
+  };
 
   const handleHarakatToggle = () => {
-    setIsHarakatActive(!isHarakatActive)
-    onHarakatToggle(!isHarakatActive)
-  }
+    const newValue = !isHarakatActive;
+    setIsHarakatActive(newValue);
+    onHarakatToggle?.(newValue);
+  };
 
   const handleFontChange = (font) => {
-    setSelectedFont(font)
-    onFontChange(font)
-  }
+    setSelectedFont(font);
+    onFontChange?.(font);
+  };
 
   const handleThemeChange = (theme) => {
-    setSelectedTheme(theme)
-    onThemeChange(theme)
-  }
+    setSelectedTheme(theme);
+    onThemeChange?.(theme);
+  };
 
   return (
     <section className="bg-surface-container px-reader-gutter-mobile py-space-sm shadow-inner transition-all duration-300" id="customizer-panel">
@@ -116,7 +144,7 @@ function ReaderCustomizer({ onFontSizeChange, onHarakatToggle, onFontChange, onT
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-export default ReaderCustomizer
+export default ReaderCustomizer;

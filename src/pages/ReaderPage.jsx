@@ -1,21 +1,74 @@
-import { useState } from 'react'
-import ReaderHeader from '../components/ReaderHeader'
-import ReaderContextBar from '../components/ReaderContextBar'
-import ReaderCustomizer from '../components/ReaderCustomizer'
-import ReadingChamber from '../components/ReadingChamber'
+import { useState, useEffect } from 'react';
+import ReaderHeader from '../components/ReaderHeader';
+import ReaderContextBar from '../components/ReaderContextBar';
+import ReaderCustomizer from '../components/ReaderCustomizer';
+import ReadingChamber from '../components/ReadingChamber';
+import { useAuth } from '../contexts/AuthContext';
+import { supabase } from '../lib/supabase';
 
 const themeMap = {
   'theme-light': { bg: '#FFFFFF', text: '#1E1B1C' },
   'theme-sepia': { bg: '#F4ECD8', text: '#3A2F2D' },
   'theme-night': { bg: '#1C1917', text: '#E7E2DE' },
-}
+};
 
 function ReaderPage() {
-  const [showCustomizer, setShowCustomizer] = useState(true)
-  const [fontSize, setFontSize] = useState(24)
-  const [showHarakat, setShowHarakat] = useState(true)
-  const [fontClass, setFontClass] = useState('font-arabic-body')
-  const [theme, setTheme] = useState('theme-sepia')
+  const { user, profile, refreshProfile } = useAuth();
+  const [showCustomizer, setShowCustomizer] = useState(true);
+  const [fontSize, setFontSize] = useState(24);
+  const [showHarakat, setShowHarakat] = useState(true);
+  const [fontClass, setFontClass] = useState('font-arabic-body');
+  const [theme, setTheme] = useState('theme-sepia');
+  const [saving, setSaving] = useState(false);
+
+  // Initialize from profile preferences if logged in
+  useEffect(() => {
+    if (profile) {
+      setFontSize(profile.font_size || 24);
+      setShowHarakat(profile.show_harakat ?? true);
+      setFontClass(profile.preferred_font || 'font-arabic-body');
+      setTheme(profile.preferred_theme || 'theme-sepia');
+    }
+  }, [profile]);
+
+  const savePreferences = async (updates) => {
+    if (!user) return;
+    
+    setSaving(true);
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .update(updates)
+        .eq('id', user.id);
+      
+      if (error) throw error;
+      await refreshProfile();
+    } catch (error) {
+      console.error('Failed to save preferences:', error);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleFontSizeChange = async (size) => {
+    setFontSize(size);
+    await savePreferences({ font_size: size });
+  };
+
+  const handleHarakatToggle = async (show) => {
+    setShowHarakat(show);
+    await savePreferences({ show_harakat: show });
+  };
+
+  const handleFontChange = async (font) => {
+    setFontClass(font);
+    await savePreferences({ preferred_font: font });
+  };
+
+  const handleThemeChange = async (themeName) => {
+    setTheme(themeName);
+    await savePreferences({ preferred_theme: themeName });
+  };
 
   return (
     <div className="bg-surface font-body-reading text-body-reading text-on-surface flex flex-col antialiased">
@@ -25,10 +78,14 @@ function ReaderPage() {
           <ReaderContextBar onToggleSettings={() => setShowCustomizer(!showCustomizer)} />
           {showCustomizer && (
             <ReaderCustomizer
-              onFontSizeChange={setFontSize}
-              onHarakatToggle={setShowHarakat}
-              onFontChange={setFontClass}
-              onThemeChange={setTheme}
+              onFontSizeChange={handleFontSizeChange}
+              onHarakatToggle={handleHarakatToggle}
+              onFontChange={handleFontChange}
+              onThemeChange={handleThemeChange}
+              initialFontSize={fontSize}
+              initialHarakat={showHarakat}
+              initialFont={fontClass}
+              initialTheme={theme}
             />
           )}
           <ReadingChamber
@@ -40,7 +97,7 @@ function ReaderPage() {
         </div>
       </main>
     </div>
-  )
+  );
 }
 
-export default ReaderPage
+export default ReaderPage;
