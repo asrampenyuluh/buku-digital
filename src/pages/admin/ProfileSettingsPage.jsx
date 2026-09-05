@@ -130,6 +130,7 @@ function ProfileSettingsPage() {
               >
                 <option value="font-arabic-body">Amiri</option>
                 <option value="font-arabic-body-scheherazade">Scheherazade New</option>
+                <option value="font-arabic-body-isep-misbah">Isep Misbah</option>
                 <option value="font-display-hero">Noto Serif</option>
               </select>
             </div>

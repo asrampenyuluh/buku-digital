@@ -108,6 +108,7 @@ function ReaderCustomizer({
             {[
               { label: 'Amiri', font: 'font-arabic-body' },
               { label: 'Scheherazade', font: 'font-arabic-body-scheherazade' },
+              { label: 'Isep Misbah', font: 'font-arabic-body-isep-misbah' },
               { label: 'Serif', font: 'font-display-hero' },
             ].map((item) => (
               <button
