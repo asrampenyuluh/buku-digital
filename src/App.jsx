@@ -9,6 +9,7 @@ import AdminDashboard from './pages/admin/AdminDashboard'
 import BooksPage from './pages/admin/BooksPage'
 import ChaptersPage from './pages/admin/ChaptersPage'
 import HadithsPage from './pages/admin/HadithsPage'
+import ProfileSettingsPage from './pages/admin/ProfileSettingsPage'
 import LoginPage from './pages/admin/LoginPage'
 import RegisterPage from './pages/admin/RegisterPage'
 import AdminRoute from './components/admin/AdminRoute'
@@ -38,6 +39,7 @@ function App() {
             <Route path="books" element={<BooksPage />} />
             <Route path="chapters" element={<ChaptersPage />} />
             <Route path="hadiths" element={<HadithsPage />} />
+            <Route path="profile" element={<ProfileSettingsPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

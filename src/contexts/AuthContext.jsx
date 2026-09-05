@@ -50,6 +50,12 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const refreshProfile = async () => {
+    if (user?.id) {
+      await fetchProfile(user.id);
+    }
+  };
+
   const signIn = async (email, password) => {
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -79,7 +85,7 @@ export function AuthProvider({ children }) {
   const isAdmin = profile?.is_admin || false;
 
   return (
-    <AuthContext.Provider value={{ session, user, profile, loading, signIn, signUp, signOut, isAdmin }}>
+    <AuthContext.Provider value={{ session, user, profile, loading, signIn, signUp, signOut, isAdmin, refreshProfile }}>
       {children}
     </AuthContext.Provider>
   );

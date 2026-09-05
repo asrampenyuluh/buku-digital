@@ -85,6 +85,20 @@ function AdminLayout() {
             >
               Kelola Hadits
             </NavLink>
+            <div className="pt-2 border-t border-surface-container">
+              <NavLink
+                to="/admin/profile"
+                className={({ isActive }) =>
+                  `block px-3 py-2 rounded-lg font-ui-label text-ui-label transition-colors ${
+                    isActive
+                      ? 'bg-primary text-on-primary'
+                      : 'text-on-surface hover:bg-surface-container-high'
+                  }`
+                }
+              >
+                Pengaturan Profil
+              </NavLink>
+            </div>
           </nav>
         </aside>
 
