@@ -1,4 +1,13 @@
-function FeaturedBookBanner() {
+import { useEffect, useState } from 'react';
+import { supabase } from '../lib/supabase';
+
+function FeaturedBookBanner({ books }) {
+  const featured = books?.[0]
+
+  if (!featured) {
+    return null
+  }
+
   return (
     <div className="relative overflow-hidden rounded-xl bg-primary-container text-on-primary shadow-md p-space-md">
       <div className="absolute -right-8 -bottom-8 w-36 h-36 rounded-full bg-surface-tint/20 blur-xl pointer-events-none"></div>
@@ -8,18 +17,13 @@ function FeaturedBookBanner() {
             Terakhir Dibaca
           </span>
           <span className="font-arabic-body-scheherazade text-headline-sm text-secondary-container leading-none">
-            رياض الصالحين
+            {featured.arabicTitle}
           </span>
         </div>
         <div className="flex items-center justify-between gap-space-md pt-1">
           <div className="flex flex-col min-w-0">
-            <h2 className="font-headline-md text-headline-sm text-on-primary font-bold truncate">Riyadhus Shalihin</h2>
-            <p className="font-ui-caption text-ui-caption text-on-primary-container mt-0.5">
-              Imam Abu Zakariya Yahya bin Syaraf An-Nawawi
-            </p>
-            <p className="font-body-sm text-body-sm text-on-primary/90 mt-2 font-medium">
-              Lanjutkan Membaca: Bab 12 (Keikhlasan &amp; Niat)
-            </p>
+            <h2 className="font-headline-md text-headline-sm text-on-primary font-bold truncate">{featured.title}</h2>
+            <p className="font-ui-caption text-ui-caption text-on-primary-container mt-0.5">{featured.author}</p>
           </div>
           <div className="relative shrink-0 flex items-center justify-center w-14 h-14">
             <svg className="w-14 h-14 -rotate-90" viewBox="0 0 48 48">

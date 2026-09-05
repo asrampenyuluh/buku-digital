@@ -62,95 +62,19 @@ function BookCard({ title, arabicTitle, author, meta, chips, storage, actions })
   )
 }
 
-function BookList() {
-  const books = [
-    {
-      title: 'Riyadhus Shalihin',
-      arabicTitle: 'رياض الصالحين',
-      author: 'Imam Abu Zakariya An-Nawawi',
-      meta: {
-        alt: 'Cover of Riyadhus Shalihin book adorned with intricate Islamic gold and deep emerald arabesque geometric interlacing motifs',
-        src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDM0KiUu9XkUgSTNGLRvtknz1j62ECHPuqR86awW14h3xVlc-Z0cm2EiZ9ICvMlHJL_l7x2e-lgrGhFNMsEr5aJKZhPgDeb09icWDylBC6noksdGhvrRNa13VEbWyheI3_f7qVP39W8nd_HFzfp8DIU7UZbnqfOrhfcTlrcvQAxxYVhkWC7nYYP3HzrTuDONwLLLVYVi1cUakBEuP-cSvSd7ffIpuJ95HekdQlW_Sdn7HHCv-5Nc_eGiw',
-      },
-      chips: [
-        { icon: 'format_list_numbered', label: '1,896 Hadits', variant: 'default' },
-        { icon: 'check_circle', label: 'Tersimpan', variant: 'filled' },
-      ],
-      storage: 'Penyimpanan: 12.4 MB',
-      actions: [
-        { icon: 'book', label: 'Baca', variant: 'primary' },
-        { icon: 'delete_outline', label: '', variant: 'danger' },
-      ],
-    },
-    {
-      title: 'Al-Arba\'in An-Nawawiyyah',
-      arabicTitle: 'الأربعون النووية',
-      author: 'Imam Yahya bin Syaraf An-Nawawi',
-      meta: {
-        alt: 'Cover of Arbain Nawawi book with elegant emerald green manuscript leather texture',
-        src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBKzvP2tDRyjlcbotukTONNUIMDkl56IHaSl69o-F8Rz9iNWzhiZxVc0lUT8i6QWRIabD463IIW23xqHsKPvIyLFKhZsLw1rIiwcLKnm6i5PMOY-lqRWAIWvGnvex0hF7ZrRcQqzlz5BH1NrzAybfh4qCIr8ykwEVbUoxnHT9Lh4g2kTbuKkdLNKv8jG7uDy9WQmRDGXph7VjX1V-sOkri9zgt73skQx7LiFpiTQwe0vgwKR1zvcLQoJg',
-      },
-      chips: [
-        { icon: 'format_list_numbered', label: '42 Hadits', variant: 'default' },
-        { icon: 'check_circle', label: 'Tersimpan', variant: 'filled' },
-      ],
-      storage: 'Penyimpanan: 1.8 MB',
-      actions: [
-        { icon: 'book', label: 'Baca', variant: 'primary' },
-        { icon: 'delete_outline', label: '', variant: 'danger' },
-      ],
-    },
-    {
-      title: 'Safinatun Naja & Taqrib',
-      arabicTitle: 'سفينة النجاة ومتن التقريب',
-      author: 'Syaikh Salim bin Sumair Al-Hadhrami',
-      meta: {
-        alt: 'Classical Islamic jurisprudence manuscript book cover for Fiqh Safinatun Naja',
-        src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD_FX1zOZH3GJblE3_c7n58ZBxzxL-sUe-51V0M4UVmPhVDG3NBp0p-aJ0TpEOdRfaMKM0HNkZUaBNFoPyKVPBgervrDP9ZeBuITy-pni5S30AWRPERk7r2spUbFFHL4KM8G_XQ6ZfoV4DVfCSNMLwbY2L8C_NDt8Loh-1rcoLSZQ8DkgxiMUCkXlvp48AU9V4p-Pf7zqouJyM0tbiR-Jn0mUwHwkXe2aBZtIhY0RyUmKwWiiuE8ETSLg',
-      },
-      chips: [
-        { icon: 'menu_book', label: 'Fiqih Syafi\'i Dasar', variant: 'default' },
-        { icon: 'cloud_queue', label: 'Cloud', variant: 'filled' },
-      ],
-      storage: 'Ukuran: 4.2 MB',
-      actions: [{ icon: 'download', label: 'Unduh (4.2 MB)', variant: 'secondary' }],
-    },
-    {
-      title: 'Tafsir Al-Jalalain',
-      arabicTitle: 'تفسير الجلالين',
-      author: 'Jalaluddin Al-Mahalli & As-Suyuthi',
-      meta: {
-        alt: 'Cover of classical Tafsir Jalalain Quran commentary book',
-        src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC_JcYTq9-ovTpRzrJnv3r6TzMz8hXhUebXVw02O1sYWlkSgpd27y94UjOyDWZKphz3pNkqO3MFf8o6rj0lsEip6Tcvdx5FGxOn-Ma8yvG0oxO6t57sYBNm8sc3nzIUKE0AQkRoIKbXOcG62dYayaywkUtPEctzR2BKOnBpX6xxkCvirO9TqygkK_5YZDz99rEPS9zVFjKRhd6dep8mS2F7KoH0F8YTnfPJfwmUF0BgAHRWugjh5X2TGA',
-      },
-      chips: [
-        { icon: 'auto_stories', label: 'Lengkap 30 Juz', variant: 'default' },
-        { icon: 'cloud_queue', label: 'Cloud', variant: 'filled' },
-      ],
-      storage: 'Ukuran: 18.5 MB',
-      actions: [{ icon: 'download', label: 'Unduh (18.5 MB)', variant: 'secondary' }],
-    },
-    {
-      title: 'Matn Al-Ajurrumiyyah',
-      arabicTitle: 'متن الآجرومية في علم النحو',
-      author: 'Abu Abdillah Muhammad bin Ajurrum',
-      meta: {
-        alt: 'Cover of Matn Al-Ajurrumiyyah Arabic grammar treatise',
-        src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCjIfMy3B87kB0unm3ar5A4DMgJlVYNw68VnilwZkJkY-sQxwzP59L_8n-KPEae7Se1p_T2wgk07Set2Pa0Tit6TB0LQqtkvHfXSaIapSEMsNkzVqc98jIHOFesWulSWabplPQaq3CKv3fmmhVuQI4EEcG4yKqiUS9WaUlhc7oSgP9Ag2aVrbijF0SSYa5370Lu0Ahu9gMZzAZs-fHlXGnygtBEGkcONruiTV2uyOa5JNVE0fpdmIAmcw',
-      },
-      chips: [
-        { icon: 'spellcheck', label: 'Qawa\'id Nahwu', variant: 'default' },
-        { icon: 'cloud_queue', label: 'Cloud', variant: 'filled' },
-      ],
-      storage: 'Ukuran: 2.1 MB',
-      actions: [{ icon: 'download', label: 'Unduh (2.1 MB)', variant: 'secondary' }],
-    },
-  ]
+function BookList({ books }) {
+  if (!books || books.length === 0) {
+    return (
+      <div className="text-center py-12 font-body-sm text-body-sm text-on-surface-variant">
+        Belum ada kitab yang tersedia.
+      </div>
+    )
+  }
 
   return (
     <div className="flex flex-col space-y-space-md" id="book-list">
       {books.map((book, index) => (
-        <BookCard key={index} {...book} />
+        <BookCard key={book.id || index} {...book} />
       ))}
     </div>
   )
