@@ -1,0 +1,17 @@
+{
+  "name": "Maktabah Digital",
+  "short_name": "Maktabah",
+  "description": "Aplikasi membaca kitab Islam offline",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff8f8",
+  "theme_color": "#003629",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
