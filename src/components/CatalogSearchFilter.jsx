@@ -1,16 +1,18 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react';
+import { supabase } from '../lib/supabase';
 
-const categories = [
-  { id: 'all', label: 'Semua' },
-  { id: 'hadits', label: 'Hadits' },
-  { id: 'fiqih', label: 'Fiqih' },
-  { id: 'aqidah', label: 'Aqidah' },
-  { id: 'tafsir', label: 'Tafsir' },
-  { id: 'bahasa', label: 'Bahasa Arab' },
-]
+function CatalogSearchFilter({ categories, onFilterChange, activeFilter }) {
+  const [searchQuery, setSearchQuery] = useState('');
 
-function CatalogSearchFilter() {
-  const [activeFilter, setActiveFilter] = useState('all')
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    onFilterChange?.({ query, category: activeFilter });
+  };
+
+  const handleCategoryClick = (categorySlug) => {
+    onFilterChange?.({ query: searchQuery, category: categorySlug });
+  };
 
   return (
     <div className="flex flex-col space-y-space-sm pt-space-xs">
@@ -23,6 +25,8 @@ function CatalogSearchFilter() {
           id="book-search"
           placeholder="Cari judul kitab, pengarang, atau topik..."
           type="search"
+          value={searchQuery}
+          onChange={handleSearchChange}
         />
         <button
           aria-label="Suara atau filter mendalam"
@@ -33,23 +37,34 @@ function CatalogSearchFilter() {
         </button>
       </div>
       <div className="flex items-center gap-space-xs overflow-x-auto pb-1 no-scrollbar -mx-reader-gutter-mobile px-reader-gutter-mobile sm:mx-0 sm:px-0">
+        <button
+          className={`filter-chip px-3.5 py-1.5 rounded-full font-ui-label text-ui-label whitespace-nowrap shrink-0 transition-all active:scale-95 ${
+            activeFilter === 'all'
+              ? 'bg-primary text-on-primary shadow-sm'
+              : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
+          }`}
+          onClick={() => handleCategoryClick('all')}
+          type="button"
+        >
+          Semua
+        </button>
         {categories.map((cat) => (
           <button
             key={cat.id}
             className={`filter-chip px-3.5 py-1.5 rounded-full font-ui-label text-ui-label whitespace-nowrap shrink-0 transition-all active:scale-95 ${
-              activeFilter === cat.id
+              activeFilter === cat.slug
                 ? 'bg-primary text-on-primary shadow-sm'
                 : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
             }`}
-            onClick={() => setActiveFilter(cat.id)}
+            onClick={() => handleCategoryClick(cat.slug)}
             type="button"
           >
-            {cat.label}
+            {cat.name}
           </button>
         ))}
       </div>
     </div>
-  )
+  );
 }
 
-export default CatalogSearchFilter
+export default CatalogSearchFilter;

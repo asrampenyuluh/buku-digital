@@ -3,6 +3,7 @@ import { supabase } from '../../lib/supabase';
 
 function BooksPage() {
   const [books, setBooks] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingBook, setEditingBook] = useState(null);
@@ -10,7 +11,7 @@ function BooksPage() {
     title: '',
     title_arabic: '',
     author: '',
-    category: 'hadits',
+    category: '',
     total_hadiths: 0,
     total_chapters: 0,
     file_size_mb: 0,
@@ -22,8 +23,17 @@ function BooksPage() {
     setLoading(false);
   };
 
+  const fetchCategories = async () => {
+    const { data } = await supabase
+      .from('categories')
+      .select('*')
+      .order('sort_order', { ascending: true });
+    if (data) setCategories(data);
+  };
+
   useEffect(() => {
     fetchBooks();
+    fetchCategories();
   }, []);
 
   const handleSubmit = async (e) => {
@@ -39,7 +49,7 @@ function BooksPage() {
       title: '',
       title_arabic: '',
       author: '',
-      category: 'hadits',
+      category: categories[0]?.slug || '',
       total_hadiths: 0,
       total_chapters: 0,
       file_size_mb: 0,
@@ -138,11 +148,10 @@ function BooksPage() {
                   onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                   className="w-full px-3 py-2 bg-surface-container rounded-lg font-body-sm text-body-sm border border-outline focus:outline-none focus:border-primary"
                 >
-                  <option value="hadits">Hadits</option>
-                  <option value="fiqih">Fiqih</option>
-                  <option value="aqidah">Aqidah</option>
-                  <option value="tafsir">Tafsir</option>
-                  <option value="bahasa">Bahasa Arab</option>
+                  <option value="">Pilih Kategori</option>
+                  {categories.map((cat) => (
+                    <option key={cat.id} value={cat.slug}>{cat.name}</option>
+                  ))}
                 </select>
               </div>
               <div>
