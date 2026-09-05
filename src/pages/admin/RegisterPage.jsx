@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
-function LoginPage() {
+function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [fullName, setFullName] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const { signIn } = useAuth();
+  const { signUp } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -15,11 +16,11 @@ function LoginPage() {
     setLoading(true);
     setError('');
 
-    const { error } = await signIn(email, password);
+    const { error } = await signUp(email, password, fullName);
     if (error) {
       setError(error.message);
     } else {
-      navigate('/admin');
+      navigate('/admin/login');
     }
     setLoading(false);
   };
@@ -29,9 +30,11 @@ function LoginPage() {
       <div className="w-full max-w-md">
         <div className="bg-surface-container-lowest rounded-xl shadow-sm p-space-md">
           <div className="text-center mb-space-md">
-            <h1 className="font-headline-md text-headline-md text-on-surface font-bold">Masuk Admin</h1>
+            <h1 className="font-headline-md text-headline-md text-on-surface font-bold">
+              Daftar Akun Admin
+            </h1>
             <p className="font-body-sm text-body-sm text-on-surface-variant mt-1">
-              Masuk untuk mengelola konten kitab
+              Buat akun baru untuk mengelola konten kitab
             </p>
           </div>
 
@@ -42,6 +45,20 @@ function LoginPage() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-space-sm">
+            <div>
+              <label className="block font-ui-caption text-ui-caption text-on-surface mb-1">
+                Nama Lengkap
+              </label>
+              <input
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                className="w-full px-3 py-2 bg-surface-container rounded-lg font-body-sm text-body-sm text-on-surface border border-outline focus:outline-none focus:border-primary"
+                placeholder="Nama Anda"
+                required
+              />
+            </div>
+
             <div>
               <label className="block font-ui-caption text-ui-caption text-on-surface mb-1">
                 Email
@@ -67,7 +84,11 @@ function LoginPage() {
                 className="w-full px-3 py-2 bg-surface-container rounded-lg font-body-sm text-body-sm text-on-surface border border-outline focus:outline-none focus:border-primary"
                 placeholder="••••••••"
                 required
+                minLength={6}
               />
+              <p className="font-ui-caption text-ui-caption text-on-surface-variant mt-1">
+                Minimal 6 karakter
+              </p>
             </div>
 
             <button
@@ -75,16 +96,13 @@ function LoginPage() {
               disabled={loading}
               className="w-full bg-primary text-on-primary py-2.5 rounded-lg font-ui-label text-ui-label font-semibold hover:bg-primary-container transition-colors disabled:opacity-50"
             >
-              {loading ? 'Memuat...' : 'Masuk'}
+              {loading ? 'Memuat...' : 'Daftar'}
             </button>
           </form>
 
-          <div className="mt-space-sm text-center space-y-1">
-            <Link to="/admin/register" className="font-ui-caption text-ui-caption text-primary hover:underline block">
-              Belum punya akun? Daftar
-            </Link>
-            <Link to="/" className="font-ui-caption text-ui-caption text-on-surface-variant hover:underline block">
-              ← Kembali ke Katalog
+          <div className="mt-space-sm text-center">
+            <Link to="/admin/login" className="font-ui-caption text-ui-caption text-primary hover:underline">
+              ← Sudah punya akun? Masuk
             </Link>
           </div>
         </div>
@@ -93,4 +111,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default RegisterPage;

@@ -10,6 +10,7 @@ import BooksPage from './pages/admin/BooksPage'
 import ChaptersPage from './pages/admin/ChaptersPage'
 import HadithsPage from './pages/admin/HadithsPage'
 import LoginPage from './pages/admin/LoginPage'
+import RegisterPage from './pages/admin/RegisterPage'
 import AdminRoute from './components/admin/AdminRoute'
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path="/pengaturan" element={<CatalogPage />} />
           <Route path="/baca/:id" element={<ReaderPage />} />
           <Route path="/admin/login" element={<LoginPage />} />
+          <Route path="/admin/register" element={<RegisterPage />} />
           <Route
             path="/admin"
             element={
