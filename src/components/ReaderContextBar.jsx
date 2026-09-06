@@ -4,7 +4,7 @@ function ReaderContextBar({ onToggleSettings, manuscript, reading }) {
   const [isBookmarked, setIsBookmarked] = useState(false)
 
   const sectionTitle = manuscript?.title || 'Manuskrip'
-  const readingNumber = reading?.reading_number || 1
+  const readingNumber = reading?.hadith_number || reading?.reading_number || 1
 
   return (
     <aside className="sticky top-16 z-40 bg-surface-container-low/95 backdrop-blur-md px-reader-gutter-mobile py-2.5 shadow-sm transition-colors duration-300">

@@ -30,12 +30,12 @@ function ReadingChamber({ fontClass, theme, fontSize, reading, manuscript }) {
     }
   }, [theme])
 
-  const arabicText = reading?.arabic_text || ''
-  const translation = reading?.translation || ''
-  const speaker = reading?.speaker_narrator || ''
+  const arabicText = reading?.matan_arabic || reading?.arabic_text || ''
+  const translation = reading?.matan_translation || reading?.translation || ''
+  const speaker = reading?.narrator || reading?.speaker_narrator || ''
   const grade = reading?.grade || ''
   const source = reading?.source || ''
-  const readingNumber = reading?.reading_number || 1
+  const readingNumber = reading?.hadith_number || reading?.reading_number || 1
 
   return (
     <article

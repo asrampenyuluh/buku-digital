@@ -1,4 +1,8 @@
-function ReadingCard({ reading_number, speaker_narrator, arabic_text, translation, grade, source }) {
+function ReadingCard({ hadith_number, narrator, matan_arabic, matan_translation, reading_number, speaker_narrator, arabic_text, translation, grade, source }) {
+  const readingNumber = hadith_number || reading_number || 1
+  const speaker = narrator || speaker_narrator || ''
+  const arabicText = matan_arabic || arabic_text || ''
+  const translationText = matan_translation || translation || ''
   return (
     <article className="relative flex flex-col bg-surface-container-lowest rounded-xl p-space-sm shadow-sm hover:shadow-md transition-shadow">
       <div className="flex gap-space-sm min-w-0 flex-1">
@@ -7,10 +11,10 @@ function ReadingCard({ reading_number, speaker_narrator, arabic_text, translatio
             <div className="flex items-start justify-between gap-1">
               <div className="min-w-0">
                 <h4 className="font-headline-sm text-body-reading font-bold text-on-surface truncate">
-                  Bacaan {reading_number || 1}
+                   Bacaan {readingNumber}
                 </h4>
-                {speaker_narrator && (
-                  <p className="font-body-sm text-body-sm text-on-surface-variant mt-0.5">{speaker_narrator}</p>
+                {speaker && (
+                  <p className="font-body-sm text-body-sm text-on-surface-variant mt-0.5">{speaker}</p>
                 )}
               </div>
               {grade && (
@@ -19,13 +23,13 @@ function ReadingCard({ reading_number, speaker_narrator, arabic_text, translatio
                 </span>
               )}
             </div>
-            {arabic_text && (
+            {arabicText && (
               <p className="font-arabic-body text-headline-sm text-secondary leading-tight mt-1" dir="rtl">
-                {arabic_text}
+                {arabicText}
               </p>
             )}
-            {translation && (
-              <p className="font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">{translation}</p>
+            {translationText && (
+              <p className="font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">{translationText}</p>
             )}
             {source && (
               <p className="font-ui-caption text-ui-caption text-outline mt-1">Sumber: {source}</p>

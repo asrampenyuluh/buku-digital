@@ -3,25 +3,25 @@ import { supabase } from '../../lib/supabase'
 
 function SectionsPage() {
   const [sections, setSections] = useState([])
-  const [manuscripts, setManuscripts] = useState([])
+  const [books, setBooks] = useState([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [editingSection, setEditingSection] = useState(null)
   const [formData, setFormData] = useState({
-    manuscript_id: '',
-    section_number: 1,
+    book_id: '',
+    chapter_number: 1,
     title: '',
     title_arabic: '',
     description: '',
   })
 
   const fetchData = async () => {
-    const [sectionsRes, manuscriptsRes] = await Promise.all([
+    const [sectionsRes, booksRes] = await Promise.all([
       supabase.from('chapters').select('*').order('created_at', { ascending: false }),
       supabase.from('books').select('id, title').order('title'),
     ])
     if (sectionsRes.data) setSections(sectionsRes.data)
-    if (manuscriptsRes.data) setManuscripts(manuscriptsRes.data)
+    if (booksRes.data) setBooks(booksRes.data)
     setLoading(false)
   }
 
@@ -39,8 +39,8 @@ function SectionsPage() {
     setShowForm(false)
     setEditingSection(null)
     setFormData({
-      manuscript_id: '',
-      section_number: 1,
+      book_id: '',
+      chapter_number: 1,
       title: '',
       title_arabic: '',
       description: '',
@@ -51,8 +51,8 @@ function SectionsPage() {
   const handleEdit = (section) => {
     setEditingSection(section)
     setFormData({
-      manuscript_id: section.manuscript_id,
-      section_number: section.section_number,
+      book_id: section.book_id,
+      chapter_number: section.chapter_number,
       title: section.title,
       title_arabic: section.title_arabic || '',
       description: section.description || '',
@@ -67,8 +67,8 @@ function SectionsPage() {
     }
   }
 
-  const getManuscriptTitle = (manuscriptId) => {
-    return manuscripts.find((m) => m.id === manuscriptId)?.title || 'Unknown'
+  const getBookTitle = (bookId) => {
+    return books.find((b) => b.id === bookId)?.title || 'Unknown'
   }
 
   return (
@@ -100,14 +100,14 @@ function SectionsPage() {
                   Manuskrip
                 </label>
                 <select
-                  value={formData.manuscript_id}
-                  onChange={(e) => setFormData({ ...formData, manuscript_id: e.target.value })}
+                  value={formData.book_id}
+                  onChange={(e) => setFormData({ ...formData, book_id: e.target.value })}
                   className="w-full px-3 py-2 bg-surface-container rounded-lg font-body-sm text-body-sm border border-outline focus:outline-none focus:border-primary"
                   required
                 >
-                  <option value="">Pilih Manuskrip</option>
-                  {manuscripts.map((m) => (
-                    <option key={m.id} value={m.id}>{m.title}</option>
+                  <option value="">Pilih Kitab</option>
+                  {books.map((b) => (
+                    <option key={b.id} value={b.id}>{b.title}</option>
                   ))}
                 </select>
               </div>
@@ -117,8 +117,8 @@ function SectionsPage() {
                 </label>
                 <input
                   type="number"
-                  value={formData.section_number}
-                  onChange={(e) => setFormData({ ...formData, section_number: parseInt(e.target.value) || 1 })}
+                  value={formData.chapter_number}
+                  onChange={(e) => setFormData({ ...formData, chapter_number: parseInt(e.target.value) || 1 })}
                   className="w-full px-3 py-2 bg-surface-container rounded-lg font-body-sm text-body-sm border border-outline focus:outline-none focus:border-primary"
                   required
                 />
@@ -197,9 +197,9 @@ function SectionsPage() {
               {sections.map((section) => (
                 <tr key={section.id} className="hover:bg-surface-container transition-colors">
                   <td className="px-4 py-3">
-                    <div className="font-body-sm text-body-sm text-on-surface font-medium">
-                      {section.section_number}. {section.title}
-                    </div>
+                  <div className="font-body-sm text-body-sm text-on-surface font-medium">
+                    {section.chapter_number}. {section.title}
+                  </div>
                     {section.title_arabic && (
                       <div className="font-arabic-body text-headline-sm text-secondary" dir="rtl">
                         {section.title_arabic}
@@ -207,7 +207,7 @@ function SectionsPage() {
                     )}
                   </td>
                   <td className="px-4 py-3 font-body-sm text-body-sm text-on-surface-variant">
-                    {getManuscriptTitle(section.manuscript_id)}
+                    {getBookTitle(section.book_id)}
                   </td>
                   <td className="px-4 py-3 text-right">
                     <button

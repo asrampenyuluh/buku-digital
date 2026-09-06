@@ -3,32 +3,32 @@ import { supabase } from '../../lib/supabase'
 
 function ReadingsPage() {
   const [readings, setReadings] = useState([])
-  const [manuscripts, setManuscripts] = useState([])
+  const [books, setBooks] = useState([])
   const [sections, setSections] = useState([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [editingReading, setEditingReading] = useState(null)
   const [formData, setFormData] = useState({
-    manuscript_id: '',
-    section_id: '',
-    reading_number: 1,
-    speaker_narrator: '',
-    arabic_text: '',
+    book_id: '',
+    chapter_id: '',
+    hadith_number: 1,
+    narrator: '',
+    matan_arabic: '',
     transliteration: '',
-    translation: '',
+    matan_translation: '',
     notes: '',
     grade: '',
     source: '',
   })
 
   const fetchData = async () => {
-    const [readingsRes, manuscriptsRes, sectionsRes] = await Promise.all([
+    const [readingsRes, booksRes, sectionsRes] = await Promise.all([
       supabase.from('hadiths').select('*').order('created_at', { ascending: false }),
       supabase.from('books').select('id, title').order('title'),
       supabase.from('chapters').select('id, title, book_id').order('chapter_number'),
     ])
     if (readingsRes.data) setReadings(readingsRes.data)
-    if (manuscriptsRes.data) setManuscripts(manuscriptsRes.data)
+    if (booksRes.data) setBooks(booksRes.data)
     if (sectionsRes.data) setSections(sectionsRes.data)
     setLoading(false)
   }
@@ -37,8 +37,8 @@ function ReadingsPage() {
     fetchData()
   }, [])
 
-  const handleManuscriptChange = (manuscriptId) => {
-    setFormData({ ...formData, manuscript_id: manuscriptId, section_id: '' })
+  const handleBookChange = (bookId) => {
+    setFormData({ ...formData, book_id: bookId, chapter_id: '' })
   }
 
   const handleSubmit = async (e) => {
@@ -51,13 +51,13 @@ function ReadingsPage() {
     setShowForm(false)
     setEditingReading(null)
     setFormData({
-      manuscript_id: '',
-      section_id: '',
-      reading_number: 1,
-      speaker_narrator: '',
-      arabic_text: '',
+      book_id: '',
+      chapter_id: '',
+      hadith_number: 1,
+      narrator: '',
+      matan_arabic: '',
       transliteration: '',
-      translation: '',
+      matan_translation: '',
       notes: '',
       grade: '',
       source: '',
@@ -68,13 +68,13 @@ function ReadingsPage() {
   const handleEdit = (reading) => {
     setEditingReading(reading)
     setFormData({
-      manuscript_id: reading.manuscript_id,
-      section_id: reading.section_id || '',
-      reading_number: reading.reading_number,
-      speaker_narrator: reading.speaker_narrator || '',
-      arabic_text: reading.arabic_text || '',
+      book_id: reading.book_id,
+      chapter_id: reading.chapter_id || '',
+      hadith_number: reading.hadith_number,
+      narrator: reading.narrator || '',
+      matan_arabic: reading.matan_arabic || '',
       transliteration: reading.transliteration || '',
-      translation: reading.translation || '',
+      matan_translation: reading.matan_translation || '',
       notes: reading.notes || '',
       grade: reading.grade || '',
       source: reading.source || '',
@@ -89,15 +89,15 @@ function ReadingsPage() {
     }
   }
 
-  const getManuscriptTitle = (manuscriptId) => {
-    return manuscripts.find((m) => m.id === manuscriptId)?.title || 'Unknown'
+  const getBookTitle = (bookId) => {
+    return books.find((b) => b.id === bookId)?.title || 'Unknown'
   }
 
-  const getSectionTitle = (sectionId) => {
-    return sections.find((s) => s.id === sectionId)?.title || 'Unknown'
+  const getChapterTitle = (chapterId) => {
+    return sections.find((s) => s.id === chapterId)?.title || 'Unknown'
   }
 
-  const filteredSections = sections.filter((s) => s.manuscript_id === formData.manuscript_id)
+  const filteredChapters = sections.filter((s) => s.book_id === formData.book_id)
 
   return (
     <div>
@@ -128,14 +128,14 @@ function ReadingsPage() {
                   Manuskrip
                 </label>
                 <select
-                  value={formData.manuscript_id}
-                  onChange={(e) => handleManuscriptChange(e.target.value)}
+                  value={formData.book_id}
+                  onChange={(e) => handleBookChange(e.target.value)}
                   className="w-full px-3 py-2 bg-surface-container rounded-lg font-body-sm text-body-sm border border-outline focus:outline-none focus:border-primary"
                   required
                 >
-                  <option value="">Pilih Manuskrip</option>
-                  {manuscripts.map((m) => (
-                    <option key={m.id} value={m.id}>{m.title}</option>
+                  <option value="">Pilih Kitab</option>
+                  {books.map((b) => (
+                    <option key={b.id} value={b.id}>{b.title}</option>
                   ))}
                 </select>
               </div>
@@ -143,47 +143,47 @@ function ReadingsPage() {
                 <label className="block font-ui-caption text-ui-caption text-on-surface mb-1">
                   Bagian
                 </label>
-                <select
-                  value={formData.section_id}
-                  onChange={(e) => setFormData({ ...formData, section_id: e.target.value })}
-                  className="w-full px-3 py-2 bg-surface-container rounded-lg font-body-sm text-body-sm border border-outline focus:outline-none focus:border-primary"
-                >
-                  <option value="">Pilih Bagian (Opsional)</option>
-                  {filteredSections.map((section) => (
-                    <option key={section.id} value={section.id}>{section.title}</option>
-                  ))}
-                </select>
+                  <select
+                    value={formData.chapter_id}
+                    onChange={(e) => setFormData({ ...formData, chapter_id: e.target.value })}
+                    className="w-full px-3 py-2 bg-surface-container rounded-lg font-body-sm text-body-sm border border-outline focus:outline-none focus:border-primary"
+                  >
+                    <option value="">Pilih Bab (Opsional)</option>
+                    {filteredChapters.map((chapter) => (
+                      <option key={chapter.id} value={chapter.id}>{chapter.title}</option>
+                    ))}
+                  </select>
               </div>
               <div>
                 <label className="block font-ui-caption text-ui-caption text-on-surface mb-1">
                   Nomor Bacaan
                 </label>
-                <input
-                  type="number"
-                  value={formData.reading_number}
-                  onChange={(e) => setFormData({ ...formData, reading_number: parseInt(e.target.value) || 1 })}
-                  className="w-full px-3 py-2 bg-surface-container rounded-lg font-body-sm text-body-sm border border-outline focus:outline-none focus:border-primary"
-                  required
-                />
+                  <input
+                    type="number"
+                    value={formData.hadith_number}
+                    onChange={(e) => setFormData({ ...formData, hadith_number: parseInt(e.target.value) || 1 })}
+                    className="w-full px-3 py-2 bg-surface-container rounded-lg font-body-sm text-body-sm border border-outline focus:outline-none focus:border-primary"
+                    required
+                  />
               </div>
               <div>
                 <label className="block font-ui-caption text-ui-caption text-on-surface mb-1">
                   Pembicara / Perawi
                 </label>
-                <input
-                  type="text"
-                  value={formData.speaker_narrator}
-                  onChange={(e) => setFormData({ ...formData, speaker_narrator: e.target.value })}
-                  className="w-full px-3 py-2 bg-surface-container rounded-lg font-body-sm text-body-sm border border-outline focus:outline-none focus:border-primary"
-                />
+                  <input
+                    type="text"
+                    value={formData.narrator}
+                    onChange={(e) => setFormData({ ...formData, narrator: e.target.value })}
+                    className="w-full px-3 py-2 bg-surface-container rounded-lg font-body-sm text-body-sm border border-outline focus:outline-none focus:border-primary"
+                  />
               </div>
               <div className="md:col-span-2">
                 <label className="block font-ui-caption text-ui-caption text-on-surface mb-1">
                   Teks Arab
                 </label>
                 <textarea
-                  value={formData.arabic_text}
-                  onChange={(e) => setFormData({ ...formData, arabic_text: e.target.value })}
+                  value={formData.matan_arabic}
+                  onChange={(e) => setFormData({ ...formData, matan_arabic: e.target.value })}
                   className="w-full px-3 py-2 bg-surface-container rounded-lg font-body-sm text-body-sm border border-outline focus:outline-none focus:border-primary"
                   rows={3}
                   dir="rtl"
@@ -205,8 +205,8 @@ function ReadingsPage() {
                   Terjemahan
                 </label>
                 <textarea
-                  value={formData.translation}
-                  onChange={(e) => setFormData({ ...formData, translation: e.target.value })}
+                  value={formData.matan_translation}
+                  onChange={(e) => setFormData({ ...formData, matan_translation: e.target.value })}
                   className="w-full px-3 py-2 bg-surface-container rounded-lg font-body-sm text-body-sm border border-outline focus:outline-none focus:border-primary"
                   rows={2}
                 />
@@ -275,22 +275,22 @@ function ReadingsPage() {
                 <tr key={reading.id} className="hover:bg-surface-container transition-colors">
                   <td className="px-4 py-3">
                     <div className="font-body-sm text-body-sm text-on-surface font-medium">
-                      No. {reading.reading_number}
+                      No. {reading.hadith_number}
                     </div>
                     <div className="font-arabic-body text-headline-sm text-secondary truncate max-w-md" dir="rtl">
-                      {reading.arabic_text}
+                      {reading.matan_arabic}
                     </div>
                   </td>
                   <td className="px-4 py-3">
                     <div className="font-body-sm text-body-sm text-on-surface-variant">
-                      {getManuscriptTitle(reading.manuscript_id)}
+                      {getBookTitle(reading.book_id)}
                     </div>
                     <div className="font-ui-caption text-ui-caption text-on-surface-variant">
-                      {getSectionTitle(reading.section_id)}
+                      {getChapterTitle(reading.chapter_id)}
                     </div>
                   </td>
                   <td className="px-4 py-3 font-body-sm text-body-sm text-on-surface-variant">
-                    {reading.speaker_narrator || '-'}
+                    {reading.narrator || '-'}
                   </td>
                   <td className="px-4 py-3">
                     <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container font-ui-caption text-ui-caption text-on-surface-variant">
