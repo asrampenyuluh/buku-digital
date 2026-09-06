@@ -39,7 +39,7 @@ function CatalogSearchFilter({ categories, onFilterChange, activeFilter, content
         </button>
       </div>
       <div className="flex items-center gap-space-xs overflow-x-auto pb-1 no-scrollbar -mx-reader-gutter-mobile px-reader-gutter-mobile sm:mx-0 sm:px-0">
-        {contentTypes?.map((type) => (
+        {Array.isArray(contentTypes) && contentTypes.map((type) => (
           <button
             key={type.slug}
             className={`filter-chip px-3.5 py-1.5 rounded-full font-ui-label text-ui-label whitespace-nowrap shrink-0 transition-all active:scale-95 ${
@@ -67,7 +67,7 @@ function CatalogSearchFilter({ categories, onFilterChange, activeFilter, content
         >
           Semua
         </button>
-        {categories.map((cat) => (
+        {Array.isArray(categories) && categories.map((cat) => (
           <button
             key={cat.id}
             className={`filter-chip px-3.5 py-1.5 rounded-full font-ui-label text-ui-label whitespace-nowrap shrink-0 transition-all active:scale-95 ${
