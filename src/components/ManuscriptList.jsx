@@ -97,11 +97,64 @@ function ManuscriptList({ manuscripts }) {
     )
   }
 
+  const mapManuscriptToCard = (manuscript) => {
+    const contentLabels = {
+      khutbah: 'Khutbah',
+      amalan: 'Amalan',
+      shalawat: 'Shalawat',
+      talqin: 'Talqin',
+      hadith_collection: 'Hadits',
+      general: 'Umum',
+    }
+
+    const contentIcons = {
+      khutbah: 'mic',
+      amalan: 'prayer_times',
+      shalawat: 'favorite',
+      talqin: 'church',
+      hadith_collection: 'menu_book',
+      general: 'library_books',
+    }
+
+    const chips = []
+    const actions = []
+
+    if (manuscript.content_type) {
+      chips.push({
+        icon: contentIcons[manuscript.content_type] || 'library_books',
+        label: contentLabels[manuscript.content_type] || 'Umum',
+        variant: 'filled',
+      })
+    }
+
+    if (manuscript.is_downloaded) {
+      actions.push({ icon: 'book', label: 'Baca', variant: 'primary' })
+    } else {
+      const size = manuscript.file_size_mb ? `${manuscript.file_size_mb} MB` : '0 MB'
+      actions.push({ icon: 'download', label: `Unduh (${size})`, variant: 'secondary' })
+    }
+
+    return {
+      title: manuscript.title,
+      arabicTitle: manuscript.title_arabic,
+      author: manuscript.author,
+      meta: {
+        alt: `Cover of ${manuscript.title}`,
+        src: manuscript.cover_url || 'https://via.placeholder.com/200x280?text=No+Cover',
+      },
+      chips,
+      storage: manuscript.file_size_mb ? `${manuscript.file_size_mb} MB` : '0 MB',
+      actions,
+      content_type: manuscript.content_type,
+    }
+  }
+
   return (
     <div className="flex flex-col space-y-space-md" id="manuscript-list">
-      {manuscripts.map((manuscript, index) => (
-        <ManuscriptCard key={manuscript.id || index} {...manuscript} />
-      ))}
+      {manuscripts.map((manuscript) => {
+        const cardProps = mapManuscriptToCard(manuscript)
+        return <ManuscriptCard key={manuscript.id} {...cardProps} />
+      })}
     </div>
   )
 }

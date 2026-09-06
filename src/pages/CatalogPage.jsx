@@ -28,13 +28,13 @@ function CatalogPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const [manuscriptsRes, categoriesRes] = await Promise.all([
-        supabase.from('manuscripts').select('*').order('created_at', { ascending: false }),
+      const [booksRes, categoriesRes] = await Promise.all([
+        supabase.from('books').select('*').order('created_at', { ascending: false }),
         supabase.from('categories').select('*').order('sort_order', { ascending: true }),
       ])
-      if (manuscriptsRes.data) {
-        setManuscripts(manuscriptsRes.data)
-        setFilteredManuscripts(manuscriptsRes.data)
+      if (booksRes.data) {
+        setManuscripts(booksRes.data)
+        setFilteredManuscripts(booksRes.data)
       }
       if (categoriesRes.data) setCategories(categoriesRes.data)
       setLoading(false)

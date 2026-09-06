@@ -14,9 +14,9 @@ function AdminDashboard() {
   useEffect(() => {
     const fetchStats = async () => {
       const [manuscriptsRes, sectionsRes, readingsRes, downloadsRes] = await Promise.all([
-        supabase.from('manuscripts').select('*', { count: 'exact', head: true }),
-        supabase.from('sections').select('*', { count: 'exact', head: true }),
-        supabase.from('readings').select('*', { count: 'exact', head: true }),
+        supabase.from('books').select('*', { count: 'exact', head: true }),
+        supabase.from('chapters').select('*', { count: 'exact', head: true }),
+        supabase.from('hadiths').select('*', { count: 'exact', head: true }),
         supabase.from('downloads').select('*', { count: 'exact', head: true }),
       ])
 

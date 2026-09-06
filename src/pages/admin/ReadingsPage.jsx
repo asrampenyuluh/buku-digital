@@ -23,9 +23,9 @@ function ReadingsPage() {
 
   const fetchData = async () => {
     const [readingsRes, manuscriptsRes, sectionsRes] = await Promise.all([
-      supabase.from('readings').select('*').order('created_at', { ascending: false }),
-      supabase.from('manuscripts').select('id, title').order('title'),
-      supabase.from('sections').select('id, title, manuscript_id').order('section_number'),
+      supabase.from('hadiths').select('*').order('created_at', { ascending: false }),
+      supabase.from('books').select('id, title').order('title'),
+      supabase.from('chapters').select('id, title, book_id').order('chapter_number'),
     ])
     if (readingsRes.data) setReadings(readingsRes.data)
     if (manuscriptsRes.data) setManuscripts(manuscriptsRes.data)
@@ -44,9 +44,9 @@ function ReadingsPage() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (editingReading) {
-      await supabase.from('readings').update(formData).eq('id', editingReading.id)
+      await supabase.from('hadiths').update(formData).eq('id', editingReading.id)
     } else {
-      await supabase.from('readings').insert([formData])
+      await supabase.from('hadiths').insert([formData])
     }
     setShowForm(false)
     setEditingReading(null)
@@ -84,7 +84,7 @@ function ReadingsPage() {
 
   const handleDelete = async (id) => {
     if (confirm('Yakin ingin menghapus bacaan ini?')) {
-      await supabase.from('readings').delete().eq('id', id)
+      await supabase.from('hadiths').delete().eq('id', id)
       fetchData()
     }
   }

@@ -33,7 +33,7 @@ function ManuscriptsPage() {
   })
 
   const fetchManuscripts = async () => {
-    const { data } = await supabase.from('manuscripts').select('*').order('created_at', { ascending: false })
+    const { data } = await supabase.from('books').select('*').order('created_at', { ascending: false })
     if (data) setManuscripts(data)
     setLoading(false)
   }
@@ -54,9 +54,9 @@ function ManuscriptsPage() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (editingManuscript) {
-      await supabase.from('manuscripts').update(formData).eq('id', editingManuscript.id)
+      await supabase.from('books').update(formData).eq('id', editingManuscript.id)
     } else {
-      await supabase.from('manuscripts').insert([formData])
+      await supabase.from('books').insert([formData])
     }
     setShowForm(false)
     setEditingManuscript(null)
@@ -96,7 +96,7 @@ function ManuscriptsPage() {
 
   const handleDelete = async (id) => {
     if (confirm('Yakin ingin menghapus manuskrip ini?')) {
-      await supabase.from('manuscripts').delete().eq('id', id)
+      await supabase.from('books').delete().eq('id', id)
       fetchManuscripts()
     }
   }

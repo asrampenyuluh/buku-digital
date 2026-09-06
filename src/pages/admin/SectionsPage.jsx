@@ -17,8 +17,8 @@ function SectionsPage() {
 
   const fetchData = async () => {
     const [sectionsRes, manuscriptsRes] = await Promise.all([
-      supabase.from('sections').select('*').order('created_at', { ascending: false }),
-      supabase.from('manuscripts').select('id, title').order('title'),
+      supabase.from('chapters').select('*').order('created_at', { ascending: false }),
+      supabase.from('books').select('id, title').order('title'),
     ])
     if (sectionsRes.data) setSections(sectionsRes.data)
     if (manuscriptsRes.data) setManuscripts(manuscriptsRes.data)
@@ -32,9 +32,9 @@ function SectionsPage() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (editingSection) {
-      await supabase.from('sections').update(formData).eq('id', editingSection.id)
+      await supabase.from('chapters').update(formData).eq('id', editingSection.id)
     } else {
-      await supabase.from('sections').insert([formData])
+      await supabase.from('chapters').insert([formData])
     }
     setShowForm(false)
     setEditingSection(null)
@@ -62,7 +62,7 @@ function SectionsPage() {
 
   const handleDelete = async (id) => {
     if (confirm('Yakin ingin menghapus bagian ini?')) {
-      await supabase.from('sections').delete().eq('id', id)
+      await supabase.from('chapters').delete().eq('id', id)
       fetchData()
     }
   }
