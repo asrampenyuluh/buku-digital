@@ -1,7 +1,10 @@
 import { useState } from 'react'
 
-function ReaderContextBar({ onToggleSettings }) {
+function ReaderContextBar({ onToggleSettings, manuscript, reading }) {
   const [isBookmarked, setIsBookmarked] = useState(false)
+
+  const sectionTitle = manuscript?.title || 'Manuskrip'
+  const readingNumber = reading?.reading_number || 1
 
   return (
     <aside className="sticky top-16 z-40 bg-surface-container-low/95 backdrop-blur-md px-reader-gutter-mobile py-2.5 shadow-sm transition-colors duration-300">
@@ -9,9 +12,9 @@ function ReaderContextBar({ onToggleSettings }) {
         <div className="flex items-center gap-2 min-w-0">
           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-ui-caption text-ui-caption shrink-0">
             <span className="material-symbols-outlined text-[13px]">menu_book</span>
-            Bagian 1 • Bacaan 1
+            Bagian 1 • Bacaan {readingNumber}
           </span>
-          <span className="font-ui-label text-ui-label text-on-surface-variant truncate">Manuskrip Ilmu</span>
+          <span className="font-ui-label text-ui-label text-on-surface-variant truncate">{sectionTitle}</span>
         </div>
         <div className="flex items-center gap-1 shrink-0">
           <button
@@ -39,4 +42,4 @@ function ReaderContextBar({ onToggleSettings }) {
   )
 }
 
-export default ReaderContextBar
+export default ReaderContextBar;

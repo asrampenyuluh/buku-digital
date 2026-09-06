@@ -1,3 +1,6 @@
+import { useEffect, useState } from 'react';
+import { supabase } from '../lib/supabase';
+
 function DownloadedManuscriptCard({ title, arabicTitle, author, size, meta, badges }) {
   return (
     <div className="group bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col gap-space-sm relative overflow-hidden">
@@ -61,57 +64,51 @@ function DownloadedManuscriptCard({ title, arabicTitle, author, size, meta, badg
 }
 
 function DownloadedManuscriptList() {
-  const manuscripts = [
-    {
-      title: 'Riyadhus Shalihin',
-      arabicTitle: 'رياض الصالحين',
-      author: 'Imam An-Nawawi',
-      size: '12MB',
-      badges: ['19 Bagian • 1,896 Hadits', 'Diunduh 2 hr lalu'],
-      meta: {
-        alt: 'Cover of Riyadhus Shalihin classical Islamic hadith book',
-        src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBDJwzCOKoQe6N3sBxANyMEwahteBNkxhNQ_30ssfg6ksvlfmQhxQH9c9SjtLt7ULCn2IzFTsmnuBJ2ESUXOf0tO-y6UZTqtSZHqdYlGHG_b0Aw4XeANgBJHJlxi-rjxlHkTP9EhHL1ldoUWC_RjfpobIUlaVCMzLBS9xzTRadURYye-sXIRB9I0IDcbkOtBqHNaEiaxp2GllbpB9Axv1rP5LUsHG77U2KD4NtjoRQ68YLSVhNIe9KEZA',
-      },
-    },
-    {
-      title: 'Al-Arba\'in An-Nawawiyyah',
-      arabicTitle: 'الأربعون النووية',
-      author: 'Imam An-Nawawi',
-      size: '3.8MB',
-      badges: ['42 Hadits Lengkap', 'Terverifikasi'],
-      meta: {
-        alt: 'Cover of Al Arbain An Nawawiyyah 40 Hadith book',
-        src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCR9APepJDL2-U4q30ip-MtVMhjzYNOwRxnZtBGE6fos4xdxiF9hW2-LoaZyDvSgLW4NcIQaSwSFwhkrFmjiBiM_1SjbVZ6S2Ur8urveE3gJ9aquV0o_jpCDWzTS4N-64bRQDT3w3EZmvWMRYnaw25iVTpOUovCCNsWA9cJgRSmjQpymsNFa1zrhbaClxvjwAzAKY37wFnXIhanf2jZzU0roq_5k_6JRYpDGpIrZoxGjhzzh8zdsXwbvg',
-      },
-    },
-    {
-      title: 'Safinatun Naja',
-      arabicTitle: 'سفينة النجاة',
-      author: 'Syaikh Salim bin Sumair Al-Hadhrami',
-      size: '4.2MB',
-      badges: ['Fiqih Ibadah Dasar', 'Lengkap'],
-      meta: {
-        alt: 'Cover of Safinatun Naja classical fiqh treatise book',
-        src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDRvBtxZ-1RAsuFAZRmnTHxTEKkN8HO1RuC_lCfLHBXyH9NJ51geDBBGAHzGG6E8GKavdhInFPCp5hP0Wb15iTIJAMtCsXeTSONpe2GxIO-EPuM7YXKlWoPOLvLiTqo0r_KS766Uq7QQK8glD4Z2LsXC5AnbyqwFqsk6QWASF9AUDR_ZbqQBZT81D1YsPW4_Z0Y7eZGh7r049z_Elz1DOrugzLaGNvqRM_1OgQlR0xfQdBbfPLVmUxHSw',
-      },
-    },
-    {
-      title: 'Al-Ajurrumiyyah',
-      arabicTitle: 'متن الآجرومية',
-      author: 'Ibnu Ajurrum',
-      size: '2.1MB',
-      badges: ['Nahwu Dasar • Matn', 'Lengkap'],
-      meta: {
-        alt: 'Cover of Matn Al-Ajurrumiyyah Arabic grammar manuscript book',
-        src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAVRJCKE8Fcd0F8ofIuiAEcW12bmbge9uHAowpwHTUMD6ZaZK6zzBSGO44a5dPcjqSZ5zwRB4H4qdjb5vxpk75mvXGa6xHfq6IuQDxq0C10IrrpBa_MsXkmP5gDmGeB3LCeUaDolqYciKjLJLw0B-nrbQYhXI_QA-MGn0-m54HQYBthEtLewVrjXs3PvWK7eYq3L9QKOR0upp89CCH7rLIlxXuFW_t-DOEpWuF5El3iQImh3QdG9WwStA',
-      },
-    },
-  ]
+  const [manuscripts, setManuscripts] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchManuscripts = async () => {
+      const { data } = await supabase
+        .from('books')
+        .select('*')
+        .order('created_at', { ascending: false })
+
+      if (data) {
+        const formatted = data.map((book) => ({
+          title: book.title,
+          arabicTitle: book.title_arabic,
+          author: book.author,
+          size: book.file_size_mb ? `${book.file_size_mb} MB` : '0 MB',
+          badges: [
+            `${book.category}`,
+            book.is_downloaded ? 'Tersimpan' : 'Cloud'
+          ],
+          meta: {
+            alt: `Cover of ${book.title}`,
+            src: book.cover_url || '/placeholders/no-cover.svg',
+          },
+        }))
+        setManuscripts(formatted)
+      }
+      setLoading(false)
+    }
+
+    fetchManuscripts()
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="text-center py-12 font-body-sm text-body-sm text-on-surface-variant">
+        Memuat daftar manuskrip...
+      </div>
+    )
+  }
 
   return (
     <div className="flex flex-col space-y-space-sm" id="downloaded-list">
       {manuscripts.map((manuscript, index) => (
-        <DownloadedManuscriptCard key={index} {...manuscript} />
+        <DownloadedManuscriptCard key={manuscript.id || index} {...manuscript} />
       ))}
     </div>
   )

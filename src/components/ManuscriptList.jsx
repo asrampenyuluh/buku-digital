@@ -140,7 +140,7 @@ function ManuscriptList({ manuscripts }) {
       author: manuscript.author,
       meta: {
         alt: `Cover of ${manuscript.title}`,
-        src: manuscript.cover_url || 'https://via.placeholder.com/200x280?text=No+Cover',
+        src: manuscript.cover_url || '/placeholders/no-cover.svg',
       },
       chips,
       storage: manuscript.file_size_mb ? `${manuscript.file_size_mb} MB` : '0 MB',

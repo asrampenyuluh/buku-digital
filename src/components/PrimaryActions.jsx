@@ -1,7 +1,16 @@
-function PrimaryActions() {
+import { useNavigate } from 'react-router-dom';
+
+function PrimaryActions({ manuscript }) {
+  const navigate = useNavigate();
+
+  if (!manuscript) return null;
+
   return (
     <div className="space-y-2">
-      <button className="w-full bg-primary hover:bg-primary-container text-on-primary py-3.5 px-space-md rounded-xl font-headline-sm text-headline-sm font-semibold flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all active:scale-[0.99]">
+      <button
+        onClick={() => navigate(`/baca/${manuscript.id}`)}
+        className="w-full bg-primary hover:bg-primary-container text-on-primary py-3.5 px-space-md rounded-xl font-headline-sm text-headline-sm font-semibold flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all active:scale-[0.99]"
+      >
         <span className="material-symbols-outlined text-[24px]">menu_book</span>
         <span>Mulai Membaca</span>
       </button>
@@ -19,4 +28,4 @@ function PrimaryActions() {
   )
 }
 
-export default PrimaryActions
+export default PrimaryActions;
