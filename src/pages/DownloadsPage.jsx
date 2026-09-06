@@ -1,7 +1,7 @@
 import DownloadsHeader from '../components/DownloadsHeader'
 import StorageUsageCard from '../components/StorageUsageCard'
 import DownloadActionBar from '../components/DownloadActionBar'
-import DownloadedBookList from '../components/DownloadedBookList'
+import DownloadedManuscriptList from '../components/DownloadedManuscriptList'
 import OfflineReadingTips from '../components/OfflineReadingTips'
 import DiscoverMore from '../components/DiscoverMore'
 import BottomNav from '../components/BottomNav'
@@ -21,14 +21,14 @@ function DownloadsPage() {
                 Penyimpanan Terisolasi (IndexedDB)
               </span>
             </div>
-            <h1 className="font-headline-md text-headline-md text-on-surface tracking-tight">Kitab Tersimpan Offline</h1>
+            <h1 className="font-headline-md text-headline-md text-on-surface tracking-tight">Manuskrip Tersimpan Offline</h1>
             <p className="font-body-sm text-body-sm text-on-surface-variant">
               Dapat dibaca tanpa koneksi internet melalui IndexedDB lokal dengan kecepatan instan.
             </p>
           </div>
           <StorageUsageCard />
           <DownloadActionBar />
-          <DownloadedBookList />
+          <DownloadedManuscriptList />
           <OfflineReadingTips />
           <DiscoverMore />
         </div>

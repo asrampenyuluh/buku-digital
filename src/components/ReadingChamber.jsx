@@ -1,8 +1,11 @@
 import { useState, useMemo } from 'react'
 
-const arabicText = `عَنْ أَمِيرِ الْمُؤْمِنِينَ أَبِي حَفْصٍ عُمَرَ بْنِ الْخَطَّابِ رَضِيَ اللَّهُ عَنْهُ قَالَ: سَمِعْتُ رَسُولَ اللَّهِ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ يَقُولُ: «إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى، فَمَنْ كَانَتْ هِجْرَتُهُ إِلَى اللَّهِ وَرَسُولِهِ فَهِجْرَتُهُ إِلَى اللَّهِ وَرَسُولِهِ، وَمَنْ كَانَتْ هِجْرَتُهُ لِدُنْيَا يُصِيبُهَا أَوِ امْرَأَةٍ يَنْكِحُهَا فَهِجْرَتُهُ إِلَى مَا هَاجَرَ إِلَيْهِ»`
+const arabicText = `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ
 
-function ReadingChamber({ fontClass, theme, fontSize, showHarakat, onCopy, onShare }) {
+عَنْ أَمِيرِ الْمُؤْمِنِينَ أَبِي حَفْصٍ عُمَرَ بْنِ الْخَطَّابِ رَضِيَ اللَّهُ عَنْهُ قَالَ: سَمِعْتُ رَسُولَ اللَّهِ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ يَقُولُ: «إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى، فَمَنْ كَانَتْ هِجْرَتُهُ إِلَى اللَّهِ وَرَسُولِهِ فَهِجْرَتُهُ إِلَى اللَّهِ وَرَسُولِهِ، وَمَنْ كَانَتْ هِجْرَتُهُ لِدُنْيَا يُصِيبُهَا أَوِ امْرَأَةٍ يَنْكِحُهَا فَهِجْرَتُهُ إِلَى مَا هَاجَرَ إِلَيْهِ»`
+
+function ReadingChamber({ fontClass, theme, fontSize }) {
   const [copied, setCopied] = useState(false)
 
   const themeStyles = useMemo(() => {
@@ -39,9 +42,8 @@ function ReadingChamber({ fontClass, theme, fontSize, showHarakat, onCopy, onSha
       await navigator.clipboard.writeText(arabicText)
       setCopied(true)
       setTimeout(() => setCopied(false), 1500)
-      onCopy?.()
     } catch {
-      onCopy?.()
+      // clipboard API unavailable
     }
   }
 
@@ -75,18 +77,17 @@ function ReadingChamber({ fontClass, theme, fontSize, showHarakat, onCopy, onSha
             className="font-ui-caption text-ui-caption uppercase tracking-widest font-bold"
             style={{ color: themeStyles.textMuted }}
           >
-            Riyadhus Shalihin • Bab 1
+            Manuskrip Ilmu • Bagian 1
           </span>
           <h2
             className={`${fontClass} font-bold leading-relaxed`}
             dir="rtl"
             style={{ color: themeStyles.text }}
           >
-            بَابُ الْإِخْلَاصِ وَإِحْضَارِ النِّيَّةِ فِي جَمِيعِ الْأَعْمَالِ
+            بَابُ الْإِخْلَاصِ وَإِحْضَارِ النِّيَّةِ
           </h2>
           <p className="font-body-sm text-body-sm italic" style={{ color: themeStyles.textMuted }}>
-            Bab Keikhlasan dan Menghadirkan Niat dalam Segala Perbuatan, Ucapan, dan Keadaan Lahir Maupun
-            Batin
+            Bab Keikhlasan dan Menghadirkan Niat dalam Segala Perbuatan
           </p>
         </div>
         <div className="relative rounded-xl p-space-md sm:p-space-lg shadow-sm flex flex-col gap-space-md" style={{ backgroundColor: themeStyles.cardBg }}>
@@ -99,18 +100,18 @@ function ReadingChamber({ fontClass, theme, fontSize, showHarakat, onCopy, onSha
                 ١
               </span>
               <span className="font-ui-label text-ui-label uppercase tracking-wider font-semibold" style={{ color: themeStyles.textMuted }}>
-                Hadits No. 1
+                Bacaan No. 1
               </span>
             </div>
             <div className="flex items-center gap-1" style={{ color: themeStyles.textMuted }}>
               <button
-                aria-label="Salin Teks Hadits"
+                aria-label="Salin Teks"
                 className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#EADFCA] transition-colors"
                 onClick={handleCopy}
               >
                 <span className="material-symbols-outlined text-[18px]">{copied ? 'check' : 'content_copy'}</span>
               </button>
-              <button aria-label="Bagikan Hadits" className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#EADFCA] transition-colors" onClick={onShare}>
+              <button aria-label="Bagikan" className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#EADFCA] transition-colors">
                 <span className="material-symbols-outlined text-[18px]">share</span>
               </button>
             </div>
@@ -121,18 +122,7 @@ function ReadingChamber({ fontClass, theme, fontSize, showHarakat, onCopy, onSha
             id="matan-arabic-container"
             style={{ fontSize: `${fontSize}px`, lineHeight: `${fontSize * 2.5}px`, color: themeStyles.text }}
           >
-            {showHarakat ? (
-              <>
-                <span>{arabicText.split('«')[0]}</span>
-                <span className="inline-block mx-1 font-bold" style={{ color: themeStyles.textMuted }}>«</span>
-                <span className="font-semibold" style={{ color: themeStyles.text }}>
-                  {arabicText.split('«')[1]?.split('»')[0]}
-                </span>
-                <span className="inline-block mx-1 font-bold" style={{ color: themeStyles.textMuted }}>»</span>
-              </>
-            ) : (
-              <span>{arabicText.replace(/[\u064B-\u065F\u0670]/g, '')}</span>
-            )}
+            <span>{arabicText}</span>
           </div>
           <div className="relative overflow-hidden rounded-xl p-space-sm flex items-center gap-space-sm" style={{ backgroundColor: themeStyles.badgeBg }}>
             <div className="w-12 h-12 rounded-lg shrink-0 flex items-center justify-center" style={{ backgroundColor: themeStyles.cardBg, color: themeStyles.textMuted }}>
@@ -140,11 +130,11 @@ function ReadingChamber({ fontClass, theme, fontSize, showHarakat, onCopy, onSha
             </div>
             <div className="min-w-0 flex flex-col">
               <span className="font-ui-caption text-ui-caption font-semibold uppercase tracking-wider" style={{ color: themeStyles.textMuted }}>
-                Faidah Pokok
+                Ringkasan
               </span>
               <p className="font-body-sm text-body-sm line-clamp-2" style={{ color: themeStyles.textMuted }}>
-                Niat adalah pembeda antara ibadah dan kebiasaan, serta penentu sah dan diterimanya amal perbuatan di
-                sisi Allah Ta&apos;ala.
+                Teks ini merupakan contoh bacaan yang dapat ditampilkan dalam berbagai format dan tema untuk kenyamanan
+                pembaca.
               </p>
             </div>
           </div>
@@ -156,17 +146,13 @@ function ReadingChamber({ fontClass, theme, fontSize, showHarakat, onCopy, onSha
               </span>
             </div>
             <p className="font-body-reading text-body-reading leading-relaxed text-justify" style={{ color: themeStyles.text }}>
-              Dari Amirul Mukminin, Abu Hafsh Umar bin Al-Khaththab <em>radhiyallahu &apos;anhu</em> berkata: Aku
-              mendengar Rasulullah <em>shallallahu &apos;alaihi wa sallam</em> bersabda:
+              Dengan nama Allah Yang Maha Pengasih lagi Maha Penyayang. Segala puji bagi Allah Tuhan semesta alam.
             </p>
             <blockquote
               className="p-space-sm rounded-lg font-body-reading text-body-reading italic"
               style={{ backgroundColor: themeStyles.badgeBg, color: themeStyles.text }}
             >
-              &quot;Sesungguhnya setiap amalan tergantung pada niatnya, dan sesungguhnya setiap orang akan mendapatkan
-              sesuai dengan apa yang ia niatkan. Maka barangsiapa yang hijrahnya kepada Allah dan Rasul-Nya, maka
-              hijrahnya kepada Allah dan Rasul-Nya. Dan barangsiapa yang hijrahnya karena dunia yang ingin ia raih atau
-              wanita yang ingin ia nikahi, maka hijrahnya sesuai dengan apa yang ia tuju.&quot;
+              "Dengan nama Allah, Maha Pengasih, Maha Penyayang. Segala puji bagi Allah, Tuhan seluruh alam."
             </blockquote>
           </div>
           <details className="group rounded-xl overflow-hidden transition-all duration-200" style={{ backgroundColor: themeStyles.badgeBg }}>
@@ -174,25 +160,24 @@ function ReadingChamber({ fontClass, theme, fontSize, showHarakat, onCopy, onSha
               <div className="flex items-center gap-2">
                 <span className="material-symbols-outlined text-[18px]">verified</span>
                 <span className="font-ui-label text-ui-label font-semibold">
-                  Takhrij: HR. Bukhari no. 1 &amp; Muslim no. 1907
+                  Catatan dan Referensi
                 </span>
               </div>
               <span className="material-symbols-outlined text-[20px] transition-transform duration-200 group-open:rotate-180">expand_more</span>
             </summary>
             <div className="px-space-sm pb-space-sm font-body-sm text-body-sm flex flex-col gap-2" style={{ color: themeStyles.textMuted }}>
               <p>
-                <strong>Derajat:</strong> Shahih Muttafaq &apos;alaih. Hadits ini disepakati keshahihannya oleh Imam
-                Al-Bukhari (Kitab Bad&apos;il Wahyi, Hadits no. 1) dan Imam Muslim (Kitab Al-Imarah, Hadits no. 1907).
+                <strong>Sumber:</strong> Referensi teks ini disusun menurut standar naskah yang dipercaya dan telah diverifikasi
+                oleh para ahli.
               </p>
               <p>
-                <strong>Komentar Ulama:</strong> Imam Asy-Syafi&apos;i dan Imam Ahmad menyatakan bahwa hadits ini
-                mencakup sepertiga dari seluruh cabang ilmu agama Islam karena perbuatan manusia berakar dari hati
-                (niat), lisan, dan anggota badan.
+                <strong>Catatan:</strong> Pembaca disarankan untuk merujuk kepada cetakan asli untuk memastikan kebenaran
+                teks.
               </p>
             </div>
           </details>
         </div>
-        <nav aria-label="Navigasi Hadits" className="flex items-center justify-between gap-space-xs pt-2">
+        <nav aria-label="Navigasi Bacaan" className="flex items-center justify-between gap-space-xs pt-2">
           <button
             className="opacity-40 cursor-not-allowed flex items-center gap-1 px-3 py-2 rounded-xl font-ui-label text-ui-label transition-colors"
             style={{ backgroundColor: themeStyles.badgeBg, color: themeStyles.textMuted }}

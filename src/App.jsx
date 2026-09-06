@@ -6,9 +6,9 @@ import DownloadsPage from './pages/DownloadsPage'
 import ReaderPage from './pages/ReaderPage'
 import AdminLayout from './pages/admin/AdminLayout'
 import AdminDashboard from './pages/admin/AdminDashboard'
-import BooksPage from './pages/admin/BooksPage'
-import ChaptersPage from './pages/admin/ChaptersPage'
-import HadithsPage from './pages/admin/HadithsPage'
+import ManuscriptsPage from './pages/admin/ManuscriptsPage'
+import SectionsPage from './pages/admin/SectionsPage'
+import ReadingsPage from './pages/admin/ReadingsPage'
 import CategoriesPage from './pages/admin/CategoriesPage'
 import ProfileSettingsPage from './pages/admin/ProfileSettingsPage'
 import LoginPage from './pages/admin/LoginPage'
@@ -21,7 +21,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<CatalogPage />} />
-          <Route path="/kitab/:id" element={<DetailPage />} />
+          <Route path="/manuskrip/:id" element={<DetailPage />} />
           <Route path="/unduhan" element={<DownloadsPage />} />
           <Route path="/terakhir" element={<CatalogPage />} />
           <Route path="/pengaturan" element={<CatalogPage />} />
@@ -37,9 +37,9 @@ function App() {
             }
           >
             <Route index element={<AdminDashboard />} />
-            <Route path="books" element={<BooksPage />} />
-            <Route path="chapters" element={<ChaptersPage />} />
-            <Route path="hadiths" element={<HadithsPage />} />
+            <Route path="manuscripts" element={<ManuscriptsPage />} />
+            <Route path="sections" element={<SectionsPage />} />
+            <Route path="readings" element={<ReadingsPage />} />
             <Route path="categories" element={<CategoriesPage />} />
             <Route path="profile" element={<ProfileSettingsPage />} />
           </Route>

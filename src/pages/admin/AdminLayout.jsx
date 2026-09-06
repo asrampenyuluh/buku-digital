@@ -1,14 +1,14 @@
-import { Outlet, NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
+import { Outlet, NavLink, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../contexts/AuthContext'
 
 function AdminLayout() {
-  const { signOut, user } = useAuth();
-  const navigate = useNavigate();
+  const { signOut, user } = useAuth()
+  const navigate = useNavigate()
 
   const handleSignOut = async () => {
-    await signOut();
-    navigate('/admin/login');
-  };
+    await signOut()
+    navigate('/admin/login')
+  }
 
   return (
     <div className="min-h-screen bg-surface">
@@ -17,7 +17,7 @@ function AdminLayout() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-4">
               <h1 className="font-headline-sm text-headline-sm text-primary font-bold">
-                Admin Panel
+                Panel Admin
               </h1>
               <span className="font-ui-caption text-ui-caption text-on-surface-variant">
                 {user?.email}
@@ -50,7 +50,7 @@ function AdminLayout() {
               Dashboard
             </NavLink>
             <NavLink
-              to="/admin/books"
+              to="/admin/manuscripts"
               className={({ isActive }) =>
                 `block px-3 py-2 rounded-lg font-ui-label text-ui-label transition-colors ${
                   isActive
@@ -59,10 +59,10 @@ function AdminLayout() {
                 }`
               }
             >
-              Kelola Kitab
+              Kelola Manuskrip
             </NavLink>
             <NavLink
-              to="/admin/chapters"
+              to="/admin/sections"
               className={({ isActive }) =>
                 `block px-3 py-2 rounded-lg font-ui-label text-ui-label transition-colors ${
                   isActive
@@ -71,10 +71,10 @@ function AdminLayout() {
                 }`
               }
             >
-              Kelola Bab
+              Kelola Bagian
             </NavLink>
             <NavLink
-              to="/admin/hadiths"
+              to="/admin/readings"
               className={({ isActive }) =>
                 `block px-3 py-2 rounded-lg font-ui-label text-ui-label transition-colors ${
                   isActive
@@ -83,7 +83,7 @@ function AdminLayout() {
                 }`
               }
             >
-              Kelola Hadits
+              Kelola Bacaan
             </NavLink>
             <NavLink
               to="/admin/categories"
@@ -119,7 +119,7 @@ function AdminLayout() {
         </main>
       </div>
     </div>
-  );
+  )
 }
 
-export default AdminLayout;
+export default AdminLayout

@@ -1,4 +1,4 @@
-function BookCover() {
+function ManuscriptCover() {
   return (
     <div className="relative overflow-hidden bg-surface-container-lowest rounded-xl shadow-sm p-space-md">
       <div className="absolute -right-8 -bottom-8 w-44 h-44 rounded-full bg-secondary-container/20 blur-2xl pointer-events-none"></div>
@@ -18,12 +18,12 @@ function BookCover() {
             }}
           ></div>
           <div className="relative z-10 flex justify-between items-center text-on-primary/60 px-1 pt-0.5">
-            <span className="font-ui-caption text-[8px] tracking-widest uppercase">Hadits</span>
+            <span className="font-ui-caption text-[8px] tracking-widest uppercase">Manuskrip</span>
             <span className="material-symbols-outlined text-[12px] text-secondary-container">auto_stories</span>
           </div>
           <div className="relative z-10 text-center my-auto px-1">
-            <div className="font-arabic-display-mobile text-[17px] leading-tight text-secondary-fixed font-bold">رياض الصالحين</div>
-            <div className="text-[8px] font-ui-caption text-on-primary tracking-tighter mt-1 opacity-90">An-Nawawi</div>
+            <div className="font-arabic-display-mobile text-[17px] leading-tight text-secondary-fixed font-bold">المصحف</div>
+            <div className="text-[8px] font-ui-caption text-on-primary tracking-tighter mt-1 opacity-90">Digital</div>
           </div>
           <div className="relative z-10 w-full bg-primary/80 py-0.5 rounded-sm text-center">
             <span className="font-ui-caption text-[8px] text-secondary-fixed tracking-widest uppercase font-bold">Tahqiq Mu'tamad</span>
@@ -32,31 +32,29 @@ function BookCover() {
         <div className="flex flex-col justify-center min-w-0 flex-1">
           <div className="flex items-center gap-1.5 mb-1">
             <span className="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded-full font-ui-caption text-ui-caption font-semibold">
-              Mu'tabar
+              Digital
             </span>
-            <span className="font-ui-caption text-ui-caption text-on-surface-variant">Kitab No. 04</span>
+            <span className="font-ui-caption text-ui-caption text-on-surface-variant">Manuskrip No. 01</span>
           </div>
           <h2 className="font-arabic-display-mobile text-arabic-display-mobile text-primary leading-tight font-bold tracking-normal truncate">
-            رياض الصالحين
+            Manuskrip Ilmu
           </h2>
           <p className="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight mt-0.5">
-            Riyadhus Shalihin
+            Koleksi Manuskrip Digital
           </p>
           <p className="font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">
-            Al-Imam Abu Zakariya Yahya bin Syaraf An-Nawawi <span className="text-secondary font-medium">(Wafat 676 H)</span>
+            Penulis Ulama <span className="text-secondary font-medium">(Abad ke-21 M)</span>
           </p>
           <div className="flex items-center gap-3 mt-2 text-on-surface-variant font-ui-label text-ui-label">
             <span className="flex items-center gap-1">
               <span className="material-symbols-outlined text-[16px] text-secondary">folder_open</span>
-              19 Bab
+              5 Bagian
             </span>
             <span className="w-1 h-1 rounded-full bg-outline-variant"></span>
             <span className="flex items-center gap-1">
               <span className="material-symbols-outlined text-[16px] text-secondary">menu_book</span>
-              372 Sub-Bab
+              24 Bacaan
             </span>
-            <span className="w-1 h-1 rounded-full bg-outline-variant"></span>
-            <span>1,896 Hadits</span>
           </div>
         </div>
       </div>
@@ -64,4 +62,4 @@ function BookCover() {
   )
 }
 
-export default BookCover
+export default ManuscriptCover

@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
-import { supabase } from '../lib/supabase';
 
-function FeaturedBookBanner({ books }) {
-  const featured = books?.[0]
+function FeaturedManuscriptBanner({ manuscripts }) {
+  const featured = manuscripts?.find((m) => m.is_featured) || manuscripts?.[0]
 
   if (!featured) {
     return null
@@ -14,10 +12,10 @@ function FeaturedBookBanner({ books }) {
       <div className="relative flex flex-col space-y-space-sm z-10">
         <div className="flex items-center justify-between">
           <span className="px-2 py-0.5 rounded-full bg-primary/40 text-on-primary-container font-ui-caption text-ui-caption tracking-wider uppercase">
-            Terakhir Dibaca
+            Bacaan Unggulan
           </span>
           <span className="font-arabic-body-scheherazade text-headline-sm text-secondary-container leading-none">
-            {featured.arabicTitle}
+            {featured.title_arabic}
           </span>
         </div>
         <div className="flex items-center justify-between gap-space-md pt-1">
@@ -58,7 +56,7 @@ function FeaturedBookBanner({ books }) {
             href="#"
           >
             <span className="material-symbols-outlined text-[18px]">menu_book</span>
-            <span>Buka Kitab</span>
+            <span>Baca Sekarang</span>
           </a>
           <button
             aria-label="Tandai Selesai"
@@ -73,4 +71,4 @@ function FeaturedBookBanner({ books }) {
   )
 }
 
-export default FeaturedBookBanner
+export default FeaturedManuscriptBanner

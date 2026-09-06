@@ -15,7 +15,7 @@ function ReaderHeader() {
             className="h-7 w-auto object-contain shrink-0"
             src="https://lh3.googleusercontent.com/aida/AEtjO1XidyYskyUTSNl8nW_7OlC2PrVu6h5d1JtgOgSrOo-FnDrKhEhOYtvH2tRJvIjEU2FP552xYpjLoRmg_kd1ikXCItr42lw6lT2SKpUwyFSSQVv_FGwEsXUk7uoP-jMD59GuikOVQVhQ9qEX8iQBdgf5V6fv5WPYufifumyzpmunPXwpH-09qDzZlUUB-MIVEfSOBZGC0rehW5BY9ITl2Jje3_r9UpNB7Tot1n577JEq8Rv6rWeLrb6VvQY"
           />
-          <h1 className="font-headline-sm text-headline-sm text-on-surface tracking-tight truncate">Baca Kitab</h1>
+          <h1 className="font-headline-sm text-headline-sm text-on-surface tracking-tight truncate">Baca Manuskrip</h1>
         </div>
         <div className="flex items-center gap-space-xs shrink-0">
           <img

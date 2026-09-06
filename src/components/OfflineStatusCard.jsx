@@ -13,7 +13,7 @@ function OfflineStatusCard() {
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
           </div>
           <p className="font-ui-caption text-ui-caption text-on-surface-variant truncate">
-            IndexedDB Siap Offline • 12.4 MB (Teks &amp; Sanad)
+            IndexedDB Siap Offline • Teks Lengkap
           </p>
         </div>
       </div>

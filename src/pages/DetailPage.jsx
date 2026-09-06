@@ -1,10 +1,10 @@
 import Header from '../components/Header'
 import Breadcrumb from '../components/Breadcrumb'
-import BookCover from '../components/BookCover'
+import ManuscriptCover from '../components/ManuscriptCover'
 import OfflineStatusCard from '../components/OfflineStatusCard'
 import PrimaryActions from '../components/PrimaryActions'
-import SearchFilter from '../components/SearchFilter'
-import ChapterList from '../components/ChapterList'
+import SectionList from '../components/SectionList'
+import ReadingList from '../components/ReadingList'
 import ScholarCommentary from '../components/ScholarCommentary'
 
 function DetailPage() {
@@ -15,22 +15,22 @@ function DetailPage() {
         <div className="flex flex-col w-full pb-12">
           <Breadcrumb />
           <div className="px-reader-gutter-mobile space-y-space-md">
-            <BookCover />
+            <ManuscriptCover />
             <OfflineStatusCard />
             <PrimaryActions />
-            <SearchFilter />
             <div className="flex items-center justify-between pt-2">
               <div>
-                <h3 className="font-headline-sm text-headline-sm text-on-surface font-bold">Daftar Bab Kitab</h3>
+                <h3 className="font-headline-sm text-headline-sm text-on-surface font-bold">Daftar Bagian</h3>
                 <p className="font-ui-caption text-ui-caption text-on-surface-variant">
-                  Terstruktur menurut susunan asli Al-Imam An-Nawawi
+                  Terstruktur menurut susunan asli
                 </p>
               </div>
               <span className="bg-secondary-container/40 text-on-secondary-container px-2.5 py-1 rounded-full font-ui-caption text-ui-caption font-semibold">
-                1/19 Bab Aktif
+                1/5 Bagian Aktif
               </span>
             </div>
-            <ChapterList />
+            <SectionList />
+            <ReadingList />
             <ScholarCommentary />
           </div>
         </div>

@@ -1,4 +1,22 @@
-function BookCard({ title, arabicTitle, author, meta, chips, storage, actions }) {
+function ManuscriptCard({ title, arabicTitle, author, meta, chips, storage, actions, content_type }) {
+  const typeLabels = {
+    khutbah: 'Khutbah',
+    amalan: 'Amalan',
+    shalawat: 'Shalawat',
+    talqin: 'Talqin',
+    hadith_collection: 'Hadits',
+    general: 'Umum',
+  }
+
+  const typeIcons = {
+    khutbah: 'mic',
+    amalan: 'prayer_times',
+    shalawat: 'favorite',
+    talqin: 'church',
+    hadith_collection: 'menu_book',
+    general: 'library_books',
+  }
+
   return (
     <article className="relative flex flex-col sm:flex-row bg-surface-container-lowest rounded-xl p-space-sm shadow-sm hover:shadow-md transition-shadow">
       <div className="flex gap-space-sm min-w-0 flex-1">
@@ -15,14 +33,22 @@ function BookCard({ title, arabicTitle, author, meta, chips, storage, actions })
             <div className="flex items-start justify-between gap-1">
               <div className="min-w-0">
                 <h4 className="font-headline-sm text-body-reading font-bold text-on-surface truncate">{title}</h4>
-                <p className="font-arabic-body text-headline-sm text-secondary leading-tight mt-0.5" dir="rtl">
-                  {arabicTitle}
-                </p>
+                {arabicTitle && (
+                  <p className="font-arabic-body text-headline-sm text-secondary leading-tight mt-0.5" dir="rtl">
+                    {arabicTitle}
+                  </p>
+                )}
               </div>
             </div>
             <p className="font-ui-caption text-ui-caption text-on-surface-variant mt-1 truncate">{author}</p>
           </div>
           <div className="flex items-center flex-wrap gap-1.5 pt-2">
+            {content_type && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md font-ui-caption text-ui-caption bg-primary-fixed text-on-primary-fixed font-semibold">
+                <span className="material-symbols-outlined text-[13px]">{typeIcons[content_type] || 'library_books'}</span>
+                {typeLabels[content_type] || 'Umum'}
+              </span>
+            )}
             {chips.map((chip, idx) => (
               <span
                 key={idx}
@@ -62,22 +88,22 @@ function BookCard({ title, arabicTitle, author, meta, chips, storage, actions })
   )
 }
 
-function BookList({ books }) {
-  if (!books || books.length === 0) {
+function ManuscriptList({ manuscripts }) {
+  if (!manuscripts || manuscripts.length === 0) {
     return (
       <div className="text-center py-12 font-body-sm text-body-sm text-on-surface-variant">
-        Belum ada kitab yang tersedia.
+        Belum ada manuskrip yang tersedia.
       </div>
     )
   }
 
   return (
-    <div className="flex flex-col space-y-space-md" id="book-list">
-      {books.map((book, index) => (
-        <BookCard key={book.id || index} {...book} />
+    <div className="flex flex-col space-y-space-md" id="manuscript-list">
+      {manuscripts.map((manuscript, index) => (
+        <ManuscriptCard key={manuscript.id || index} {...manuscript} />
       ))}
     </div>
   )
 }
 
-export default BookList
+export default ManuscriptList

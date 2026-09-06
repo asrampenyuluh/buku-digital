@@ -1,4 +1,4 @@
-function DownloadedBookCard({ title, arabicTitle, author, size, meta, badges, actions }) {
+function DownloadedManuscriptCard({ title, arabicTitle, author, size, meta, badges }) {
   return (
     <div className="group bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col gap-space-sm relative overflow-hidden">
       <div className="flex items-start gap-space-sm">
@@ -22,12 +22,14 @@ function DownloadedBookCard({ title, arabicTitle, author, size, meta, badges, ac
               check_circle
             </span>
           </div>
-          <p
-            className="font-arabic-display-mobile text-arabic-display-mobile text-primary leading-none text-right my-0.5"
-            dir="rtl"
-          >
-            {arabicTitle}
-          </p>
+          {arabicTitle && (
+            <p
+              className="font-arabic-display-mobile text-arabic-display-mobile text-primary leading-none text-right my-0.5"
+              dir="rtl"
+            >
+              {arabicTitle}
+            </p>
+          )}
           <span className="font-body-sm text-body-sm text-on-surface-variant truncate">{author}</span>
           <div className="flex items-center gap-2 mt-1">
             {badges.map((badge, idx) => (
@@ -58,14 +60,14 @@ function DownloadedBookCard({ title, arabicTitle, author, size, meta, badges, ac
   )
 }
 
-function DownloadedBookList() {
-  const books = [
+function DownloadedManuscriptList() {
+  const manuscripts = [
     {
       title: 'Riyadhus Shalihin',
       arabicTitle: 'رياض الصالحين',
       author: 'Imam An-Nawawi',
       size: '12MB',
-      badges: ['19 Bab • 1,896 Hadits', 'Diunduh 2 hr lalu'],
+      badges: ['19 Bagian • 1,896 Hadits', 'Diunduh 2 hr lalu'],
       meta: {
         alt: 'Cover of Riyadhus Shalihin classical Islamic hadith book',
         src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBDJwzCOKoQe6N3sBxANyMEwahteBNkxhNQ_30ssfg6ksvlfmQhxQH9c9SjtLt7ULCn2IzFTsmnuBJ2ESUXOf0tO-y6UZTqtSZHqdYlGHG_b0Aw4XeANgBJHJlxi-rjxlHkTP9EhHL1ldoUWC_RjfpobIUlaVCMzLBS9xzTRadURYye-sXIRB9I0IDcbkOtBqHNaEiaxp2GllbpB9Axv1rP5LUsHG77U2KD4NtjoRQ68YLSVhNIe9KEZA',
@@ -108,11 +110,11 @@ function DownloadedBookList() {
 
   return (
     <div className="flex flex-col space-y-space-sm" id="downloaded-list">
-      {books.map((book, index) => (
-        <DownloadedBookCard key={index} {...book} />
+      {manuscripts.map((manuscript, index) => (
+        <DownloadedManuscriptCard key={index} {...manuscript} />
       ))}
     </div>
   )
 }
 
-export default DownloadedBookList
+export default DownloadedManuscriptList

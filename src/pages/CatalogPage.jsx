@@ -1,29 +1,40 @@
-import { useEffect, useState } from 'react';
-import CatalogHeader from '../components/CatalogHeader';
-import CatalogSearchFilter from '../components/CatalogSearchFilter';
-import OfflineBanner from '../components/OfflineBanner';
-import FeaturedBookBanner from '../components/FeaturedBookBanner';
-import BookList from '../components/BookList';
-import QuoteFooter from '../components/QuoteFooter';
-import BottomNav from '../components/BottomNav';
-import { supabase } from '../lib/supabase';
+import { useEffect, useState } from 'react'
+import CatalogHeader from '../components/CatalogHeader'
+import CatalogSearchFilter from '../components/CatalogSearchFilter'
+import OfflineBanner from '../components/OfflineBanner'
+import FeaturedManuscriptBanner from '../components/FeaturedManuscriptBanner'
+import ManuscriptList from '../components/ManuscriptList'
+import QuoteFooter from '../components/QuoteFooter'
+import BottomNav from '../components/BottomNav'
+import { supabase } from '../lib/supabase'
+
+const contentTypes = [
+  { slug: 'all', label: 'Semua', icon: 'auto_stories' },
+  { slug: 'khutbah', label: 'Khutbah', icon: 'mic' },
+  { slug: 'amalan', label: 'Amalan', icon: 'prayer_times' },
+  { slug: 'shalawat', label: 'Shalawat', icon: 'favorite' },
+  { slug: 'talqin', label: 'Talqin', icon: 'church' },
+  { slug: 'hadith_collection', label: 'Hadits', icon: 'menu_book' },
+  { slug: 'general', label: 'Lainnya', icon: 'library_books' },
+]
 
 function CatalogPage() {
-  const [books, setBooks] = useState([])
+  const [manuscripts, setManuscripts] = useState([])
   const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(true)
   const [activeFilter, setActiveFilter] = useState('all')
-  const [filteredBooks, setFilteredBooks] = useState([])
+  const [activeType, setActiveType] = useState('all')
+  const [filteredManuscripts, setFilteredManuscripts] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
-      const [booksRes, categoriesRes] = await Promise.all([
-        supabase.from('books').select('*').order('created_at', { ascending: false }),
+      const [manuscriptsRes, categoriesRes] = await Promise.all([
+        supabase.from('manuscripts').select('*').order('created_at', { ascending: false }),
         supabase.from('categories').select('*').order('sort_order', { ascending: true }),
       ])
-      if (booksRes.data) {
-        setBooks(booksRes.data)
-        setFilteredBooks(booksRes.data)
+      if (manuscriptsRes.data) {
+        setManuscripts(manuscriptsRes.data)
+        setFilteredManuscripts(manuscriptsRes.data)
       }
       if (categoriesRes.data) setCategories(categoriesRes.data)
       setLoading(false)
@@ -32,26 +43,32 @@ function CatalogPage() {
     fetchData()
   }, [])
 
-  const handleFilterChange = ({ query, category }) => {
+  const handleFilterChange = ({ query, category, contentType }) => {
     setActiveFilter(category)
+    setActiveType(contentType)
 
-    let filtered = books
+    let filtered = manuscripts
 
     if (category && category !== 'all') {
-      filtered = filtered.filter((book) => book.category === category)
+      filtered = filtered.filter((m) => m.category === category)
+    }
+
+    if (contentType && contentType !== 'all') {
+      filtered = filtered.filter((m) => m.content_type === contentType)
     }
 
     if (query) {
       const q = query.toLowerCase()
       filtered = filtered.filter(
-        (book) =>
-          book.title.toLowerCase().includes(q) ||
-          book.author.toLowerCase().includes(q) ||
-          book.title_arabic.includes(q)
+        (m) =>
+          m.title.toLowerCase().includes(q) ||
+          m.author.toLowerCase().includes(q) ||
+          (m.title_arabic && m.title_arabic.includes(q)) ||
+          (m.tags && m.tags.some((tag) => tag.toLowerCase().includes(q)))
       )
     }
 
-    setFilteredBooks(filtered)
+    setFilteredManuscripts(filtered)
   }
 
   return (
@@ -63,25 +80,27 @@ function CatalogPage() {
             categories={categories}
             onFilterChange={handleFilterChange}
             activeFilter={activeFilter}
+            contentTypes={contentTypes}
+            activeType={activeType}
           />
           <OfflineBanner />
           {loading ? (
             <div className="text-center py-8 font-body-sm text-body-sm text-on-surface-variant">
-              Memuat kitab...
+              Memuat manuskrip...
             </div>
           ) : (
-            <FeaturedBookBanner books={filteredBooks} />
+            <FeaturedManuscriptBanner manuscripts={filteredManuscripts} />
           )}
           <div className="flex items-center justify-between pt-space-xs">
             <div className="flex items-baseline gap-2">
-              <h3 className="font-headline-md text-headline-sm text-primary font-bold">Koleksi Kitab Utama</h3>
+              <h3 className="font-headline-md text-headline-sm text-primary font-bold">Koleksi Utama</h3>
               <span className="font-ui-caption text-ui-caption text-on-surface-variant font-medium">
-                ({filteredBooks.length} Kitab)
+                ({filteredManuscripts.length} Manuskrip)
               </span>
             </div>
             <span className="font-ui-caption text-ui-caption text-secondary font-semibold">Tersinkronisasi</span>
           </div>
-          <BookList books={filteredBooks} />
+          <ManuscriptList manuscripts={filteredManuscripts} />
           <QuoteFooter />
         </div>
       </main>

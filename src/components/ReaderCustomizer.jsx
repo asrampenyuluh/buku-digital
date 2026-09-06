@@ -1,71 +1,59 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 
-const fontSizes = [18, 20, 22, 24, 28, 32, 36];
+const fontSizes = [18, 20, 22, 24, 28, 32, 36]
 
 function ReaderCustomizer({
   onFontSizeChange,
-  onHarakatToggle,
   onFontChange,
   onThemeChange,
   initialFontSize = 24,
-  initialHarakat = true,
   initialFont = 'font-arabic-body',
   initialTheme = 'theme-sepia',
 }) {
-  const [currentSizeIdx, setCurrentSizeIdx] = useState(fontSizes.indexOf(initialFontSize) !== -1 ? fontSizes.indexOf(initialFontSize) : 3);
-  const [isHarakatActive, setIsHarakatActive] = useState(initialHarakat);
-  const [selectedFont, setSelectedFont] = useState(initialFont);
-  const [selectedTheme, setSelectedTheme] = useState(initialTheme);
-
-  // Sync with external prop changes
-  useEffect(() => {
-    const idx = fontSizes.indexOf(initialFontSize);
-    if (idx !== -1) setCurrentSizeIdx(idx);
-  }, [initialFontSize]);
+  const [currentSizeIdx, setCurrentSizeIdx] = useState(
+    fontSizes.indexOf(initialFontSize) !== -1 ? fontSizes.indexOf(initialFontSize) : 3
+  )
+  const [selectedFont, setSelectedFont] = useState(initialFont)
+  const [selectedTheme, setSelectedTheme] = useState(initialTheme)
 
   useEffect(() => {
-    setIsHarakatActive(initialHarakat);
-  }, [initialHarakat]);
+    const idx = fontSizes.indexOf(initialFontSize)
+    if (idx !== -1) setCurrentSizeIdx(idx)
+  }, [initialFontSize])
 
   useEffect(() => {
-    setSelectedFont(initialFont);
-  }, [initialFont]);
+    setSelectedFont(initialFont)
+  }, [initialFont])
 
   useEffect(() => {
-    setSelectedTheme(initialTheme);
-  }, [initialTheme]);
+    setSelectedTheme(initialTheme)
+  }, [initialTheme])
 
   const handleFontDec = () => {
     if (currentSizeIdx > 0) {
-      const newIdx = currentSizeIdx - 1;
-      setCurrentSizeIdx(newIdx);
-      onFontSizeChange?.(fontSizes[newIdx]);
+      const newIdx = currentSizeIdx - 1
+      setCurrentSizeIdx(newIdx)
+      onFontSizeChange?.(fontSizes[newIdx])
     }
-  };
+  }
 
   const handleFontInc = () => {
     if (currentSizeIdx < fontSizes.length - 1) {
-      const newIdx = currentSizeIdx + 1;
-      setCurrentSizeIdx(newIdx);
-      onFontSizeChange?.(fontSizes[newIdx]);
+      const newIdx = currentSizeIdx + 1
+      setCurrentSizeIdx(newIdx)
+      onFontSizeChange?.(fontSizes[newIdx])
     }
-  };
-
-  const handleHarakatToggle = () => {
-    const newValue = !isHarakatActive;
-    setIsHarakatActive(newValue);
-    onHarakatToggle?.(newValue);
-  };
+  }
 
   const handleFontChange = (font) => {
-    setSelectedFont(font);
-    onFontChange?.(font);
-  };
+    setSelectedFont(font)
+    onFontChange?.(font)
+  }
 
   const handleThemeChange = (theme) => {
-    setSelectedTheme(theme);
-    onThemeChange?.(theme);
-  };
+    setSelectedTheme(theme)
+    onThemeChange?.(theme)
+  }
 
   return (
     <section className="bg-surface-container px-reader-gutter-mobile py-space-sm shadow-inner transition-all duration-300" id="customizer-panel">
@@ -90,18 +78,6 @@ function ReaderCustomizer({
               A+
             </button>
           </div>
-          <button
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-container-lowest shadow-sm text-on-surface font-ui-caption text-ui-caption hover:bg-surface-container-high transition-colors"
-            onClick={handleHarakatToggle}
-          >
-            <span
-              className={`material-symbols-outlined text-[17px] ${isHarakatActive ? 'text-primary' : 'text-outline'}`}
-              style={{ fontVariationSettings: "'FILL' 1" }}
-            >
-              {isHarakatActive ? 'check_circle' : 'radio_button_unchecked'}
-            </span>
-            <span>Tashkeel / Harakat</span>
-          </button>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-space-xs pt-1">
           <div className="flex items-center justify-between bg-surface-container-lowest p-1 rounded-xl shadow-sm">
@@ -109,7 +85,7 @@ function ReaderCustomizer({
               { label: 'Amiri', font: 'font-arabic-body' },
               { label: 'Scheherazade', font: 'font-arabic-body-scheherazade' },
               { label: 'Isep Misbah', font: 'font-arabic-body-isep-misbah' },
-              { label: 'Serif', font: 'font-display-hero' },
+              { label: 'Noto Serif', font: 'font-display-hero' },
             ].map((item) => (
               <button
                 key={item.font}
@@ -145,7 +121,7 @@ function ReaderCustomizer({
         </div>
       </div>
     </section>
-  );
+  )
 }
 
-export default ReaderCustomizer;
+export default ReaderCustomizer
