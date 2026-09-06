@@ -1,4 +1,6 @@
 
+import { useState } from 'react';
+
 function CatalogSearchFilter({ categories, onFilterChange, activeFilter, contentTypes, activeType }) {
   const [searchQuery, setSearchQuery] = useState('')
 
