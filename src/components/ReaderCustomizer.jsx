@@ -6,15 +6,18 @@ function ReaderCustomizer({
   onFontSizeChange,
   onFontChange,
   onThemeChange,
+  onAlignmentChange,
   initialFontSize = 24,
   initialFont = 'font-arabic-body',
   initialTheme = 'theme-sepia',
+  initialAlignment = 'justify',
 }) {
   const [currentSizeIdx, setCurrentSizeIdx] = useState(
     fontSizes.indexOf(initialFontSize) !== -1 ? fontSizes.indexOf(initialFontSize) : 3
   )
   const [selectedFont, setSelectedFont] = useState(initialFont)
   const [selectedTheme, setSelectedTheme] = useState(initialTheme)
+  const [selectedAlignment, setSelectedAlignment] = useState(initialAlignment)
 
   useEffect(() => {
     const idx = fontSizes.indexOf(initialFontSize)
@@ -28,6 +31,10 @@ function ReaderCustomizer({
   useEffect(() => {
     setSelectedTheme(initialTheme)
   }, [initialTheme])
+
+  useEffect(() => {
+    setSelectedAlignment(initialAlignment)
+  }, [initialAlignment])
 
   const handleFontDec = () => {
     if (currentSizeIdx > 0) {
@@ -53,6 +60,11 @@ function ReaderCustomizer({
   const handleThemeChange = (theme) => {
     setSelectedTheme(theme)
     onThemeChange?.(theme)
+  }
+
+  const handleAlignmentChange = (alignment) => {
+    setSelectedAlignment(alignment)
+    onAlignmentChange?.(alignment)
   }
 
   return (
@@ -118,8 +130,27 @@ function ReaderCustomizer({
               </button>
             ))}
           </div>
+          </div>
+          <div className="flex items-center justify-between bg-surface-container-lowest p-1 rounded-xl shadow-sm gap-1">
+            {[
+              { label: 'Rata Kiri', alignment: 'left' },
+              { label: 'Rata Tengah', alignment: 'center' },
+              { label: 'Rata Penuh', alignment: 'justify' },
+            ].map((item) => (
+              <button
+                key={item.alignment}
+                className={`alignment-preset-btn flex-1 flex items-center justify-center gap-1 py-1 px-2 rounded-lg font-ui-caption text-ui-caption transition-all ${
+                  selectedAlignment === item.alignment
+                    ? 'bg-secondary-container text-on-secondary-container font-semibold'
+                    : 'text-on-surface hover:bg-surface-container'
+                }`}
+                onClick={() => handleAlignmentChange(item.alignment)}
+              >
+                <span className="font-body-sm font-medium">{item.label}</span>
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
     </section>
   )
 }

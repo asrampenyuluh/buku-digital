@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-function ReadingChamber({ fontClass, theme, fontSize, reading, manuscript }) {
+function ReadingChamber({ fontClass, theme, fontSize, textAlign = 'justify', reading, manuscript }) {
   const themeStyles = useMemo(() => {
     switch (theme) {
       case 'theme-sepia':
@@ -36,6 +36,18 @@ function ReadingChamber({ fontClass, theme, fontSize, reading, manuscript }) {
   const grade = reading?.grade || ''
   const source = reading?.source || ''
   const readingNumber = reading?.hadith_number || reading?.reading_number || 1
+
+  const arabicStyle = {
+    fontSize: `${fontSize}px`,
+    lineHeight: `${fontSize * 2.2}px`,
+    color: themeStyles.text,
+  }
+
+  const translationStyle = {
+    fontSize: `${Math.max(16, fontSize - 4)}px`,
+    lineHeight: `${Math.max(26, fontSize * 1.6)}px`,
+    color: themeStyles.text,
+  }
 
   return (
     <article
@@ -114,10 +126,10 @@ function ReadingChamber({ fontClass, theme, fontSize, reading, manuscript }) {
 
           {arabicText && (
             <div
-              className={`${fontClass} text-right font-normal select-text transition-all duration-200`}
+              className={`${fontClass} text-center font-normal select-text transition-all duration-200`}
               dir="rtl"
               id="matan-arabic-container"
-              style={{ fontSize: `${fontSize}px`, lineHeight: `${fontSize * 2.5}px`, color: themeStyles.text }}
+              style={arabicStyle}
             >
               {arabicText}
             </div>
@@ -138,14 +150,17 @@ function ReadingChamber({ fontClass, theme, fontSize, reading, manuscript }) {
           </div>
 
           {translation && (
-            <div className="flex flex-col gap-2 pt-1">
+            <div className="flex flex-col gap-3 pt-1">
               <div className="flex items-center gap-1" style={{ color: themeStyles.textMuted }}>
                 <span className="material-symbols-outlined text-[16px]">translate</span>
                 <span className="font-ui-caption text-ui-caption uppercase tracking-wider font-semibold">
                   Terjemahan Bahasa Indonesia
                 </span>
               </div>
-              <p className="font-body-reading text-body-reading leading-relaxed text-justify" style={{ color: themeStyles.text }}>
+              <p
+                className="font-body-reading text-body-reading"
+                style={{ ...translationStyle, color: themeStyles.text, textAlign }}
+              >
                 {translation}
               </p>
             </div>

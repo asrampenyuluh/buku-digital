@@ -14,7 +14,7 @@ function ReaderPage() {
   const [fontSize, setFontSize] = useState(24)
   const [fontClass, setFontClass] = useState('font-arabic-body')
   const [theme, setTheme] = useState('theme-sepia')
-  const [saving, setSaving] = useState(false)
+  const [textAlign, setTextAlign] = useState('justify')
   const [reading, setReading] = useState(null)
   const [manuscript, setManuscript] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -24,6 +24,7 @@ function ReaderPage() {
       setFontSize(profile.font_size || 24)
       setFontClass(profile.preferred_font || 'font-arabic-body')
       setTheme(profile.preferred_theme || 'theme-sepia')
+      setTextAlign(profile.preferred_alignment || 'justify')
     }
   }, [profile])
 
@@ -48,7 +49,6 @@ function ReaderPage() {
   const savePreferences = async (updates) => {
     if (!user) return
 
-    setSaving(true)
     try {
       const { error } = await supabase
         .from('profiles')
@@ -59,8 +59,6 @@ function ReaderPage() {
       await refreshProfile()
     } catch (error) {
       console.error('Failed to save preferences:', error)
-    } finally {
-      setSaving(false)
     }
   }
 
@@ -77,6 +75,11 @@ function ReaderPage() {
   const handleThemeChange = async (themeName) => {
     setTheme(themeName)
     await savePreferences({ preferred_theme: themeName })
+  }
+
+  const handleAlignmentChange = async (alignment) => {
+    setTextAlign(alignment)
+    await savePreferences({ preferred_alignment: alignment })
   }
 
   if (loading) {
@@ -118,15 +121,18 @@ function ReaderPage() {
               onFontSizeChange={handleFontSizeChange}
               onFontChange={handleFontChange}
               onThemeChange={handleThemeChange}
+              onAlignmentChange={handleAlignmentChange}
               initialFontSize={fontSize}
               initialFont={fontClass}
               initialTheme={theme}
+              initialAlignment={textAlign}
             />
           )}
           <ReadingChamber
             fontClass={fontClass}
             theme={theme}
             fontSize={fontSize}
+            textAlign={textAlign}
             reading={reading}
             manuscript={manuscript}
           />
