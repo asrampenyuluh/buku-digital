@@ -139,6 +139,7 @@ function ManuscriptList({ manuscripts }) {
     }
 
     return {
+      id: manuscript.id,
       title: manuscript.title,
       arabicTitle: manuscript.title_arabic,
       author: manuscript.author,
