@@ -1,4 +1,8 @@
-function ManuscriptCard({ title, arabicTitle, author, meta, chips, storage, actions, content_type }) {
+import { useNavigate } from 'react-router-dom'
+
+function ManuscriptCard({ title, arabicTitle, author, meta, chips, storage, actions, content_type, id }) {
+  const navigate = useNavigate()
+
   const typeLabels = {
     khutbah: 'Khutbah',
     amalan: 'Amalan',
@@ -18,7 +22,7 @@ function ManuscriptCard({ title, arabicTitle, author, meta, chips, storage, acti
   }
 
   return (
-    <article className="relative flex flex-col sm:flex-row bg-surface-container-lowest rounded-xl p-space-sm shadow-sm hover:shadow-md transition-shadow">
+    <article className="relative flex flex-col sm:flex-row bg-surface-container-lowest rounded-xl p-space-sm shadow-sm hover:shadow-md transition-shadow cursor-pointer" onClick={() => navigate(`/manuskrip/${id}`)}>
       <div className="flex gap-space-sm min-w-0 flex-1">
         <div className="relative w-20 h-28 rounded-lg overflow-hidden shrink-0 shadow-inner bg-surface-container-high flex flex-col justify-between p-1.5">
           <img

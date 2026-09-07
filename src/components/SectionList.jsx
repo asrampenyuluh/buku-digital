@@ -1,4 +1,6 @@
-function SectionCard({ title, arabicTitle, description, readingsCount }) {
+function SectionCard({ title, title_arabic, description, hadiths_count }) {
+  const readingsCount = hadiths_count || 0
+  const arabicTitle = title_arabic || ''
   return (
     <article className="relative flex flex-col bg-surface-container-lowest rounded-xl p-space-sm shadow-sm hover:shadow-md transition-shadow">
       <div className="flex gap-space-sm min-w-0 flex-1">

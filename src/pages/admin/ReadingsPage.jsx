@@ -147,6 +147,7 @@ function ReadingsPage() {
                     value={formData.chapter_id}
                     onChange={(e) => setFormData({ ...formData, chapter_id: e.target.value })}
                     className="w-full px-3 py-2 bg-surface-container rounded-lg font-body-sm text-body-sm border border-outline focus:outline-none focus:border-primary"
+                    required
                   >
                     <option value="">Pilih Bab (Opsional)</option>
                     {filteredChapters.map((chapter) => (
