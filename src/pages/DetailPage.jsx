@@ -7,6 +7,7 @@ import PrimaryActions from '../components/PrimaryActions';
 import SectionList from '../components/SectionList';
 import ReadingList from '../components/ReadingList';
 import ScholarCommentary from '../components/ScholarCommentary';
+import ManuscriptCover from '../components/ManuscriptCover';
 import { supabase } from '../lib/supabase';
 
 function DetailPage() {
